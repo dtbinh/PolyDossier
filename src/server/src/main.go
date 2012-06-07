@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net"
+	"errors"
 	"net/http"
 	"net/http/fcgi"
 	"crypto/tls"
@@ -12,15 +13,35 @@ import (
 type FastCGIServer struct{}
 
 func (s FastCGIServer) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("Currently serving : " + req.URL.Path)
 
-	// Nous avons besoin de specifier que nous ne voulons pas
-	// réellement vérifier le Certifica de Poly.
 	tr := &http.Transport{
 	  TLSClientConfig:    &tls.Config{InsecureSkipVerify: true},
 	}
-
 	client := &http.Client{Transport: tr}
-	resp, err := client.Get("https://www4.polymtl.ca/poly/poly.html")
+	path := ""
+	post := false
+
+	switch req.URL.Path {
+	  case "/" : path ="/poly/poly.html"
+          case "/servlet/ValidationServlet": {
+	    req.ParseForm()
+	    post = true
+	    path = req.URL.Path
+	  }
+          default : path = req.URL.Path
+	}
+
+	resp := &http.Response{}
+	err := errors.New("l")
+
+ 	
+	if !post {
+          resp, err = client.Get("https://www4.polymtl.ca" + path)	
+	} else {
+	  resp, err = client.PostForm("https://www4.polymtl.ca" + path, req.Form)
+	}
+
 
 	if err != nil {
 	  w.Write([]byte(err.Error()))
