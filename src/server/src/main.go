@@ -1,3 +1,6 @@
+// Impléntation de base pour l'application PolyDossier.
+// Créé par Eliott Mahou 
+// et Maxime Lavigne <malavv> duguigne@gmail.com
 package main
 
 import (
@@ -5,94 +8,62 @@ import (
 	"io/ioutil"
 	"errors"
 	"net/http"
-	//"net/http/fcgi"
-	"crypto/tls"
 )
 
-type FastCGIServer struct{}
-
-func (s FastCGIServer) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-w.Write([]byte("array"))
-	fmt.Println("Currently serving : " + req.URL.Path)
-	return
-	tr := &http.Transport{
-	  TLSClientConfig:    &tls.Config{InsecureSkipVerify: true},
-	}
-	client := &http.Client{Transport: tr}
-	path := ""
-	post := false
-
-	switch req.URL.Path {
-	  case "/" : path ="/poly/poly.html"
-          case "/servlet/ValidationServlet": {
-	    req.ParseForm()
-	    post = true
-	    path = req.URL.Path
-	  }
-          default : path = req.URL.Path
-	}
-
-	resp := &http.Response{}
-	err := errors.New("l")
-
-	if !post {
-          resp, err = client.Get("https://www4.polymtl.ca" + path)	
-	} else {
-	  resp, err = client.PostForm("https://www4.polymtl.ca" + path, req.Form)
-	}
-
-
-	if err != nil {
-	  w.Write([]byte(err.Error()))
-	}
-    defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-
-	w.Write(body)
+type RequestError struct {
+  Method string
+  ierror error
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Currently serving : " + r.URL.Path)
-
-	tr := &http.Transport{
-	  TLSClientConfig:    &tls.Config{InsecureSkipVerify: true},
-	}
-	client := &http.Client{Transport: tr}
-	path := ""
-	post := false
-
-	switch r.URL.Path {
-	  case "/" : path ="/poly/poly.html"
-          case "/servlet/ValidationServlet": {
-	    r.ParseForm()
-	    post = true
-	    path = r.URL.Path
-	  }
-          default : path = r.URL.Path
-	}
-
-	resp := &http.Response{}
-	err := errors.New("l")
-
-	if !post {
-          resp, err = client.Get("https://www4.polymtl.ca" + path)	
-	} else {
-	  resp, err = client.PostForm("https://www4.polymtl.ca" + path, r.Form)
-	}
-
-
-	if err != nil {
-      w.Write([]byte(err.Error()))	
-	}
-    defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-
-	w.Write(body)
+func (r *RequestError) Error() string {
+  return fmt.Sprintf("%s got %s", r.Method, r.ierror)
 }
+
+var (
+  kPolyHost = "https://www4.polymtl.ca"
+  ErrMethod = errors.New("Method isn't supported")  
+)
 
 func main() {
-    http.HandleFunc("/", handler)
-    http.ListenAndServe(":80", nil)
+    http.HandleFunc("/", goHandler)
+    http.ListenAndServe(":http", nil)
+}
+
+func goHandler(w http.ResponseWriter, r *http.Request) {
+  fmt.Println("Currently serving : " + r.URL.Path)
+  resp, err := goResponse(r)
+  
+  if err != nil {
+    fmt.Println(r.Method, err)
+    return
+  }
+  
+  data, err := ioutil.ReadAll(resp.Body)
+  if err != nil {
+    fmt.Println(r.Method, err)
+    return
+  }
+  
+  w.Write(data)
+  
+  resp.Body.Close()
+}
+
+func goResponse(r *http.Request) (*http.Response, error) {
+  defaultClient := &http.Client{}
+  
+  // Si on arrive sur la page.
+  if r.URL.Path == "/" {
+    return defaultClient.Get(kPolyHost + "/poly/poly.html")
+  }
+  
+  switch r.Method {
+    case "GET"  :
+      return defaultClient.Get(kPolyHost + r.URL.Path)
+    case "POST" :
+      return defaultClient.PostForm(kPolyHost + r.URL.Path, r.Form)
+    default :
+      return nil, &RequestError{Method: r.Method, ierror: ErrMethod}
+  }
+  return nil, nil
 }

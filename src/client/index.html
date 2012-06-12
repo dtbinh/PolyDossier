@@ -2,12 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Dossier Étudiant</title>
-  <meta name="description" content="Le dossier étudiant Polymtl">
+  <title>PolyDossier</title>
+  <meta name="description" content="Version revue et modifiée du dossier étudiant de Polytechnique.">
   <meta name="author" content="Maxime Lavigne">
   <meta name="author" content="Eliott Mahou">
+  <style type="text/css">
+    body { background-color:#dddddd; }
+    #loadingMsg {
+      background-color:#333322;      
+      border-radius: 5px;
+      font-size: 22px;
+      font-family: "Futura";
+    }
+    #loadingMsg h1 {
+      color: #ddd;
+    }
+    #loadingIcon {
+      background-color:#337722;   
+    }
+  </style>
 </head>
 <body>
-  <h1>Dossier Étudiant</h1>
+  <div id="loadingMsg">
+    <h1>Chargement</h1>
+    <canvas id="loadingIcon">
+    </canvas>
+  </div>
 </body>
 </html>
