@@ -8,7 +8,10 @@ import (
 	"io/ioutil"
 	"errors"
 	"net/http"
+  "time"
 )
+
+const kPolyHost = "https://www4.polymtl.ca"
 
 type RequestError struct {
   Method string
@@ -20,17 +23,16 @@ func (r *RequestError) Error() string {
 }
 
 var (
-  kPolyHost = "https://www4.polymtl.ca"
   ErrMethod = errors.New("Method isn't supported")  
 )
 
 func main() {
-    http.HandleFunc("/", goHandler)
+  http.HandleFunc("/", goHandler)
     http.ListenAndServe(":http", nil)
 }
 
 func goHandler(w http.ResponseWriter, r *http.Request) {
-  fmt.Println("Currently serving : " + r.URL.Path)
+  t := time.Now()
   resp, err := goResponse(r)
   
   if err != nil {
@@ -47,6 +49,14 @@ func goHandler(w http.ResponseWriter, r *http.Request) {
   w.Write(data)
   
   resp.Body.Close()
+  
+  elapsed := time.Since(t)
+  
+  if elapsed < 200 * time.Millisecond {
+    fmt.Println(time.Since(t).String() + "\t" + r.URL.Path)
+  } else {
+    fmt.Println(time.Since(t).String() + "\t" + r.URL.Path + "\t[Trop Long!!!]")
+  }
 }
 
 func goResponse(r *http.Request) (*http.Response, error) {
@@ -61,6 +71,7 @@ func goResponse(r *http.Request) (*http.Response, error) {
     case "GET"  :
       return defaultClient.Get(kPolyHost + r.URL.Path)
     case "POST" :
+      r.ParseForm()
       return defaultClient.PostForm(kPolyHost + r.URL.Path, r.Form)
     default :
       return nil, &RequestError{Method: r.Method, ierror: ErrMethod}
