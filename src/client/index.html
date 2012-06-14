@@ -7,26 +7,87 @@
   <meta name="author" content="Maxime Lavigne">
   <meta name="author" content="Eliott Mahou">
   <style type="text/css">
-    body { background-color:#dddddd; }
-    #loadingMsg {
-      background-color:#333322;      
+    body { background-color:#eee; }
+    header {
+      position: absolute;
+      top: 0px;
+      left: 0;
+      width: 100%;
+      height: 35px;
+      background-color: #2d2d2d;      
+      text-align: center;
+      box-shadow: 0 3px 5px #888;
+    }
+    #SiteName {
+      color: #ededed;
+      font-size: 1.7em;
+      font-family: Arial;
+      font-weight:bold;
+    }
+    #Informations {
+      margin: 100px auto 0 auto;
+      width: 1024px;
+      background-color:#fff;      
+      border-radius: 10px;
+      border: 1px solid #bab;
+      
+      color: #444;
+      font-size: 1.3em;
+    }
+    #Informations h1 {
+      font-size: 3.2em;
+      padding-left: 35px;
+    }
+    
+    #Informations p {
+      padding-left: 35px;
+    }
+    
+    #Informations form {
+      padding: 10px 0 0 35px;
+    }
+    
+    #Informations form input {
+      padding-right: 28px;
+      text-align: center;
+    }
+    #Sync {
+      background-color:#384D3A;
       border-radius: 5px;
-      font-size: 22px;
-      font-family: "Futura";
+      border: 1px solid #2D7D2D;
+      width: 180px;
+      height: 70px;
+      font-size: 2em;
+      color: #222;
+      font-family: Arial;
+      font-weight:bold;
+      margin: 20px 0 20px 0;
     }
-    #loadingMsg h1 {
-      color: #ddd;
+    #SyncHolder {
+      text-align: center;
     }
-    #loadingIcon {
-      background-color:#337722;   
-    }
+    
   </style>
 </head>
 <body>
-  <div id="loadingMsg">
-    <h1>Chargement</h1>
-    <canvas id="loadingIcon">
-    </canvas>
+  <header><span id="SiteName">PolyDossier</span></header>
+  
+  <div id="Informations">
+    <h1>Bienvenue dans PolyDossier</h1>
+    <p>
+      Le dossier étudiant est une initiative étudiante créé
+      dans le but de concevoir une interface plus intuitive et
+      fonctionnel au dossier étudiant présentement offert au 
+      élèves de l'école Polytechnique de Montréal.
+    </p>
+    <form method="POST" action="/auth">
+      Nom usager : <input type="text" placeholder="malavv" />
+      Mot de passe : <input type="password" />
+      Date de naissance : <input type="text" placeholder="AAMMJJ" />
+      <div id="SyncHolder">
+        <input id="Sync" type="submit" value="Sync" />
+      </div>
+    </form>
   </div>
 </body>
 </html>
