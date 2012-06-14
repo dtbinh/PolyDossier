@@ -4,12 +4,13 @@
 package main
 
 import (
-	"encoding/xml"
+	//"encoding/xml"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
+	"exp/html"
 )
 
 const kPolyHost = "https://www4.polymtl.ca"
@@ -41,17 +42,30 @@ func goHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	decoder := xml.NewDecoder(resp.Body)
-	token, tErr := xml.Token(nil), error(nil)
-	token, tErr = decoder.Token()
-	for i := 0; tErr == nil; i++ {
+  z := html.NewTokenizer(resp.Body)
+
+	for {
+		tt := z.Next()
+		if tt == html.ErrorToken {
+			fmt.Println("Error token")
+			break
+		} else {
+		fmt.Println(z.Token())
+		}
+	}
+	
+	
+	//decoder := xml.NewDecoder(resp.Body)
+	//token, tErr := xml.Token(nil), error(nil)
+	//token, tErr = decoder.Token()
+	//for i := 0; tErr == nil; i++ {
 		// if i == 1 {
 		//	decoder.Skip()
 		//} else {*/
-			fmt.Println(token, tErr)
-			token, tErr = decoder.Token()
+		//	fmt.Println(token, tErr)
+	//		token, tErr = decoder.Token()
 		//}
-	}
+	//}
 
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
