@@ -67,9 +67,9 @@ func doAction(method, path string) ([]byte, error) {
 	switch method {
 	case "GET":
 		return doGet(path)
-	                 case "POST":
+	case "POST":
 		return doPost(path)
-	                          case "PUT":
+	case "PUT":
 		return doPut(path)
 	case "DELETE":
 		return doDelete(path)
@@ -79,7 +79,7 @@ func doAction(method, path string) ([]byte, error) {
 
 func doGet(path string) ([]byte, error) {
 	if path[0:3] == "/u/" {
-		return pages.ListFunctions(pages.Credentials{"malavv", "tt11tt62", "890821"}), nil
+		return pages.ListFunctions(pages.Credentials{"temp", "temp", "temp"}), nil
 	}
 	return []byte{}, kErrUnimplemented
 }
