@@ -6,6 +6,14 @@
   <meta name="description" content="Le dossier étudiant est une initiative étudiante créé par les étudiants et pour les étudiants dans le but de facilité l'access aux services offerts par l'école Polytechnique de Montréal.">
   <meta name="author" content="Maxime Lavigne">
   <meta name="author" content="Eliott Mahou">
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" onload="alert('Jquery!')"></script>
+	<script>
+	function getList(id) {
+    $.getJSON("/u/" + id, function(json) {
+		  console.log(json)
+    });
+	}
+	</script>
 	<link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAAwBQTFRFAAAAFxcXDik0NwgLGlRwWg0SUWkQZ2dnd3d3JG6Sb5AWfaIZMJjKNajgV5KvTK2vZbSAkxYeljITpxkivRwnqzYWl3YIrVAKp2QAtWwAjW5Hrk5Vyjkd5HQJirIclK5KlMAe2oMA8pEAmdPv3I2S686DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbDGNmQAAAQB0Uk5T////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AFP3ByUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAATlJREFUOE+FkolOw0AMRMNZaAnQshzlCINL//8TjcfeJLvbSFiK5NjPEx/p9B/r6nyiVaEK8HSDlMCUL0UKoMgXRAMI7arso+rB07Tt3Gc9hQiANynHaMa0PHCzDKS0V+1plp+7nBVSEuRSyHbalgO5yAF5VoW4gocJjLIGiPZ8JPIkDADCTew+4fOg+m4Ag0AAwLnLsV5tBy9Rz8QImBvEvX4BrPeBA1hvhvD56O/x0TyXxbBZExj3q0nR747fA8ybgiPg9zFt9mUCtqnkTFZ4mu738Jq3xeNnQG0trO8hig/W79gxgz+xqHx/A/gZ3Kr4SAZcBKBnXNxlADQDnFjlVUfUFhNllHHArfkfovPSagB7AuPVTxXu8n6vC4lCocv3ycdd6MH/t7BZouphId9O0ZSfjllN6C9/OiScAYWmyBsAAAAASUVORK5CYII=" rel="icon" type="image/x-icon" />
   <style type="text/css">
     body{background:#eee}
@@ -40,7 +48,7 @@
         <input name="password" type="password" required="required" />
       Date de naissance :
         <input name="dateOfBirth" type="text" placeholder="AAMMJJ" required="required" />
-      <input id="Sync" type="submit" value="Sync" />
+        <input id="Sync" type="button" value="Sync" onclick="getList(this.parentElement.username.value);" />
     </form>
   </div>
 </body>
