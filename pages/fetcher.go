@@ -20,13 +20,19 @@ func ListFunctions(c Credentials) []byte {
 }
 
 func FetchInfos(c Credentials, funcName string) []byte {
-  switch funcName {
-	  case "PersInfo": return []byte("Les informations personnelles de l'étudiant.")
-		case "Bulletin": return []byte("Le bulletin de l'Étudiant.")
-		case "Horraire": return []byte("L'horraire de l'étudiant.")
-		case "ChoixCours": return []byte("Les possibilités de choix de cours offfertes.")
-		case "Financier": return []byte("Toutes les informations financières de l'étudiant.")
-		default : return []byte("Unrecognized Function")
+	switch funcName {
+	case "PersInfo":
+		return []byte("Les informations personnelles de l'étudiant.")
+	case "Bulletin":
+		return []byte("Le bulletin de l'Étudiant.")
+	case "Horraire":
+		return []byte("L'horraire de l'étudiant.")
+	case "ChoixCours":
+		return []byte("Les possibilités de choix de cours offfertes.")
+	case "Financier":
+		return []byte("Toutes les informations financières de l'étudiant.")
+	default:
+		return []byte("Unrecognized Function")
 	}
 	return []byte{}
 }

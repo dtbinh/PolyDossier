@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
-	"strings"
 	"os"
+	"strings"
 	"studash/pages"
 	"time"
-	"math/rand"
 )
 
 const kPolyHost = "https://www4.polymtl.ca"
@@ -40,7 +40,7 @@ func doHandleRequest(w http.ResponseWriter, r *http.Request) {
 	case "/":
 		w.Write(DefaultPage())
 	case "/js/base.js":
-	  w.Write(DefaultScript())
+		w.Write(DefaultScript())
 	default:
 		{
 			data, err := doAction(r.Method, r.URL.Path)
@@ -97,18 +97,18 @@ func doAction(method, path string) ([]byte, error) {
 }
 
 func doGet(path string) ([]byte, error) {
-  c := pages.Credentials{"temp", "temp", "temp"}
+	c := pages.Credentials{"temp", "temp", "temp"}
 
 	if path[0:3] == "/u/" {
-	  if strings.Contains(path[4:], "/") {
-		  endidx := strings.LastIndex(path[4:], "/")
-			delayMs := rand.Uint32() % 900 + 400
+		if strings.Contains(path[4:], "/") {
+			endidx := strings.LastIndex(path[4:], "/")
+			delayMs := rand.Uint32()%900 + 400
 			time.Sleep(time.Duration(delayMs) * time.Millisecond)
-		  return pages.FetchInfos(c, path[5 + endidx:]), nil
+			return pages.FetchInfos(c, path[5+endidx:]), nil
 		} else {
-		  return pages.ListFunctions(c), nil
+			return pages.ListFunctions(c), nil
 		}
-		
+
 	}
 	return []byte{}, kErrUnimplemented
 }
