@@ -1,3 +1,4 @@
+@echo off
 PUSHD ..\..\
 go install studash/adapters
 go install studash/errors

@@ -15,6 +15,6 @@ func (r *RequestError) Error() string {
 }
 
 var (
-	ErrMethod = errors.New("Method isn't supported")
-	kErrUnimplemented = errors.New("Unimplemented function")
+	ErrMethod        = errors.New("Method isn't supported")
+	ErrUnimplemented = errors.New("Unimplemented function")
 )

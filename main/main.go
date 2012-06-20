@@ -7,8 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"	
-	"os"
-	"studash/tools"
+	// "studash/tools"
 	"os"
 	"studash/pages"
 	"time"
@@ -36,6 +35,7 @@ func onHandleRequest(w http.ResponseWriter, r *http.Request) {
 func doHandleRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Path {
 	case "/":
+		// w.Write(tools.ParseHTML(w,r))
 		w.Write(DefaultPage())
 	default:
 		{
@@ -74,21 +74,21 @@ func doAction(method, path string) ([]byte, error) {
 	case "DELETE":
 		return doDelete(path)
 	}
-	return []byte{}, kErrUnimplemented
+	return []byte{}, errors.ErrUnimplemented
 }
 
 func doGet(path string) ([]byte, error) {
 	if path[0:3] == "/u/" {
 		return pages.ListFunctions(pages.Credentials{"temp", "temp", "temp"}), nil
 	}
-	return []byte{}, kErrUnimplemented
+	return []byte{}, errors.ErrUnimplemented
 }
 func doPost(path string) ([]byte, error) {
-	return []byte{}, kErrUnimplemented
+	return []byte{}, errors.ErrUnimplemented
 }
 func doPut(path string) ([]byte, error) {
-	return []byte{}, kErrUnimplemented
+	return []byte{}, errors.ErrUnimplemented
 }
 func doDelete(path string) ([]byte, error) {
-	return []byte{}, kErrUnimplemented
+	return []byte{}, errors.ErrUnimplemented
 }

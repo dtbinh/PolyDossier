@@ -5,5 +5,5 @@ import (
 )
 
 type DefaultAdapter struct {
-	parser	tools.HTMLParser
+	parser tools.HTMLParser
 }
