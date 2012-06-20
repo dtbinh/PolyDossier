@@ -2,12 +2,12 @@
 package main
 
 import (
-	"errors"
+	"studash/errors"
 	"fmt"
 	"io/ioutil"
 	"log"
-	"math/rand"
-	"net/http"
+	"net/http"	
+	// "studash/tools"
 	"os"
 	"strings"
 	"studash/pages"
@@ -16,8 +16,6 @@ import (
 
 const kPolyHost = "https://www4.polymtl.ca"
 const kLogFile = "request"
-
-var kErrUnimplemented = errors.New("Unimplemented function")
 
 func main() {
 	file, _ := os.OpenFile(fmt.Sprintf("%s_%d%s", kLogFile, time.Now().Unix(), ".log"), os.O_WRONLY|os.O_CREATE, 0666)
@@ -38,6 +36,7 @@ func onHandleRequest(w http.ResponseWriter, r *http.Request) {
 func doHandleRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Path {
 	case "/":
+		// w.Write(tools.ParseHTML(w,r))
 		w.Write(DefaultPage())
 	case "/js/base.js":
 		w.Write(DefaultScript())
@@ -93,7 +92,7 @@ func doAction(method, path string) ([]byte, error) {
 	case "DELETE":
 		return doDelete(path)
 	}
-	return []byte{}, kErrUnimplemented
+	return []byte{}, errors.ErrUnimplemented
 }
 
 func doGet(path string) ([]byte, error) {
@@ -102,22 +101,20 @@ func doGet(path string) ([]byte, error) {
 	if path[0:3] == "/u/" {
 		if strings.Contains(path[4:], "/") {
 			endidx := strings.LastIndex(path[4:], "/")
-			delayMs := rand.Uint32()%900 + 400
-			time.Sleep(time.Duration(delayMs) * time.Millisecond)
 			return pages.FetchInfos(c, path[5+endidx:]), nil
 		} else {
 			return pages.ListFunctions(c), nil
 		}
 
 	}
-	return []byte{}, kErrUnimplemented
+	return []byte{}, errors.ErrUnimplemented
 }
 func doPost(path string) ([]byte, error) {
-	return []byte{}, kErrUnimplemented
+	return []byte{}, errors.ErrUnimplemented
 }
 func doPut(path string) ([]byte, error) {
-	return []byte{}, kErrUnimplemented
+	return []byte{}, errors.ErrUnimplemented
 }
 func doDelete(path string) ([]byte, error) {
-	return []byte{}, kErrUnimplemented
+	return []byte{}, errors.ErrUnimplemented
 }
