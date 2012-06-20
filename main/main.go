@@ -8,11 +8,14 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
+	"errors"
 	"studash/pages"
 )
 
 const kPolyHost = "https://www4.polymtl.ca"
 const kLogFile  = "request"
+
+var kErrUnimplemented = errors.New("Unimplemented function")
 
 func main() {
   file, _ := os.OpenFile(fmt.Sprintf("%s_%d%s", kLogFile, time.Now().Unix(), ".log"), os.O_WRONLY | os.O_CREATE, 0666 )
@@ -31,14 +34,14 @@ func onHandleRequest(w http.ResponseWriter, r *http.Request) {
 }
 
 func doHandleRequest(w http.ResponseWriter, r *http.Request) {
-  data := make([]byte, 0)
-	
 	switch r.URL.Path {
-	  case "/" : data = DefaultPage()
-		default : data = WeirdJSON()
+	  case "/" : w.Write(DefaultPage())
+		default  : {
+		  data, err := doAction(r.Method, r.URL.Path)
+			if err != nil { fmt.Println("Wrong method / path combination") }
+			w.Write(data)
+	  }
 	}
-	
-	w.Write(data)
 }
 
 func DefaultPage() []byte {
@@ -52,7 +55,28 @@ func DefaultPage() []byte {
 	return data
 }
 
-func WeirdJSON() []byte {
-  //return []byte("{name:lolsaure}")
-	return pages.KAR
+func doAction(method, path string) ([]byte, error) {
+  switch method {
+	  case "GET" : return doGet(path)
+		case "POST" : return doPost(path)
+		case "PUT" : return doPut(path)
+		case "DELETE" : return doDelete(path)
+	}
+	return []byte{}, kErrUnimplemented
+}
+
+func doGet(path string) ([]byte, error) {
+  if path[0:3] == "/u/" {
+    return pages.ListFunctions(pages.Credentials{"malavv", "tt11tt62", "890821"}), nil
+	}
+	return []byte{}, kErrUnimplemented
+}
+func doPost(path string) ([]byte, error) {
+  return []byte{}, kErrUnimplemented
+}
+func doPut(path string) ([]byte, error) {
+	return []byte{}, kErrUnimplemented
+}
+func doDelete(path string) ([]byte, error) {
+	return []byte{}, kErrUnimplemented
 }

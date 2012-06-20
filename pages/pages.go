@@ -1,6 +1,10 @@
 package pages
 
-var KAR = []byte("lolsaure")
+type Credentials struct {
+  Id		string
+	Pass	string
+	Birth	string
+}
 
 // func goHandler(w http.ResponseWriter, r *http.Request) {
   // log.Println("Lolsaure")
