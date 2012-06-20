@@ -7,9 +7,11 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 	"os"
 	"studash/pages"
 	"time"
+	"math/rand"
 )
 
 const kPolyHost = "https://www4.polymtl.ca"
@@ -37,6 +39,8 @@ func doHandleRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Path {
 	case "/":
 		w.Write(DefaultPage())
+	case "/js/base.js":
+	  w.Write(DefaultScript())
 	default:
 		{
 			data, err := doAction(r.Method, r.URL.Path)
@@ -63,6 +67,21 @@ func DefaultPage() []byte {
 	return data
 }
 
+func DefaultScript() []byte {
+	file, err := os.Open("../src/studash/client/js/base.js")
+	defer file.Close()
+	if err != nil {
+		fmt.Println("Opening default script : " + err.Error())
+	}
+
+	data, err := ioutil.ReadAll(file)
+	if err != nil {
+		fmt.Println("Reading default script : " + err.Error())
+	}
+
+	return data
+}
+
 func doAction(method, path string) ([]byte, error) {
 	switch method {
 	case "GET":
@@ -78,8 +97,18 @@ func doAction(method, path string) ([]byte, error) {
 }
 
 func doGet(path string) ([]byte, error) {
+  c := pages.Credentials{"temp", "temp", "temp"}
+
 	if path[0:3] == "/u/" {
-		return pages.ListFunctions(pages.Credentials{"temp", "temp", "temp"}), nil
+	  if strings.Contains(path[4:], "/") {
+		  endidx := strings.LastIndex(path[4:], "/")
+			delayMs := rand.Uint32() % 900 + 400
+			time.Sleep(time.Duration(delayMs) * time.Millisecond)
+		  return pages.FetchInfos(c, path[5 + endidx:]), nil
+		} else {
+		  return pages.ListFunctions(c), nil
+		}
+		
 	}
 	return []byte{}, kErrUnimplemented
 }

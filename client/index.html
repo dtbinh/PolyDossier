@@ -6,14 +6,8 @@
   <meta name="description" content="Le dossier étudiant est une initiative étudiante créé par les étudiants et pour les étudiants dans le but de facilité l'access aux services offerts par l'école Polytechnique de Montréal.">
   <meta name="author" content="Maxime Lavigne">
   <meta name="author" content="Eliott Mahou">
-	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" onload="alert('Jquery!')"></script>
-	<script>
-	function getList(id) {
-    $.getJSON("/u/" + id, function(json) {
-		  console.log(json)
-    });
-	}
-	</script>
+	<script async src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script async src="js/base.js"></script>
 	<link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAAwBQTFRFAAAAFxcXDik0NwgLGlRwWg0SUWkQZ2dnd3d3JG6Sb5AWfaIZMJjKNajgV5KvTK2vZbSAkxYeljITpxkivRwnqzYWl3YIrVAKp2QAtWwAjW5Hrk5Vyjkd5HQJirIclK5KlMAe2oMA8pEAmdPv3I2S686DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbDGNmQAAAQB0Uk5T////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AFP3ByUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAATlJREFUOE+FkolOw0AMRMNZaAnQshzlCINL//8TjcfeJLvbSFiK5NjPEx/p9B/r6nyiVaEK8HSDlMCUL0UKoMgXRAMI7arso+rB07Tt3Gc9hQiANynHaMa0PHCzDKS0V+1plp+7nBVSEuRSyHbalgO5yAF5VoW4gocJjLIGiPZ8JPIkDADCTew+4fOg+m4Ag0AAwLnLsV5tBy9Rz8QImBvEvX4BrPeBA1hvhvD56O/x0TyXxbBZExj3q0nR747fA8ybgiPg9zFt9mUCtqnkTFZ4mu738Jq3xeNnQG0trO8hig/W79gxgz+xqHx/A/gZ3Kr4SAZcBKBnXNxlADQDnFjlVUfUFhNllHHArfkfovPSagB7AuPVTxXu8n6vC4lCocv3ycdd6MH/t7BZouphId9O0ZSfjllN6C9/OiScAYWmyBsAAAAASUVORK5CYII=" rel="icon" type="image/x-icon" />
   <style type="text/css">
     body{background:#eee}
@@ -25,6 +19,7 @@
     #Informations input{text-align:center}
     #Sync{background:#eee;border:1px solid #bab;width:180px;height:70px;font-size:2em;color:#555;font-weight:bold;cursor:pointer;transition:box-shadow 300ms;-moz-transition:box-shadow 300ms;-webkit-transition:box-shadow 300ms;-o-transition:box-shadow 300ms;margin:20px 0;border-radius:5px}
     #Sync:hover{color:#111;border:1px solid #bab;box-shadow:0 0 3px #888}
+		#Informations div{width:100%;height:35px;text-align:center;box-shadow:0 3px 5px #888;color:#888;background-image: linear-gradient(bottom, rgb(136,136,136) 0%, rgb(68,68,68) 69%);}
   </style>
 </head>
 <body>
@@ -43,12 +38,12 @@
     </p>
     <form method="POST" action="/auth">
       Nom usager : 
-        <input name="username" type="text" placeholder="malavv" required="required" />
+        <input name="username" type="text" placeholder="malavv" required="required" onblur="Student.username = this.value;" />
       Mot de passe :
-        <input name="password" type="password" required="required" />
+        <input name="password" type="password" required="required" onblur="Student.password = this.value;"/>
       Date de naissance :
-        <input name="dateOfBirth" type="text" placeholder="AAMMJJ" required="required" />
-        <input id="Sync" type="button" value="Sync" onclick="getList(this.parentElement.username.value);" />
+        <input name="dateOfBirth" type="text" placeholder="AAMMJJ" required="required" onblur="Student.dateOfBirth = this.value;"/>
+        <input id="Sync" type="button" value="Sync" onclick="FetchActions();" />
     </form>
   </div>
 </body>
