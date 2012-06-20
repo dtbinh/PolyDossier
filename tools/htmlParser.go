@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"studash/pages"
 	"time"
 )
 
@@ -28,7 +27,7 @@ func goResponse(r *http.Request) (*http.Response, error) {
 		r.ParseForm()
 		return defaultClient.PostForm(kPolyHost+r.URL.Path, r.Form)
 	default:
-		return nil, &RequestError{Method: r.Method, ierror: ErrMethod}
+		return nil, &errors.RequestError{Method: r.Method, Ierror: errors.ErrMethod}
 	}
 	return nil, nil
 }
@@ -74,6 +73,6 @@ func ParseHTML(w http.ResponseWriter, r *http.Request) []byte {
 }
 
 func WeirdJSON() []byte {
-	// return []byte("{name:lolsaure}")
-	return pages.KAR
+	return []byte("{name:lolsaure}")
+	// return pages.KAR
 }

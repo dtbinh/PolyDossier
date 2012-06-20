@@ -2,7 +2,7 @@
 package main
 
 import (
-	"errors"
+	"studash/errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -16,8 +16,6 @@ import (
 
 const kPolyHost = "https://www4.polymtl.ca"
 const kLogFile = "request"
-
-var kErrUnimplemented = errors.New("Unimplemented function")
 
 func main() {
 	file, _ := os.OpenFile(fmt.Sprintf("%s_%d%s", kLogFile, time.Now().Unix(), ".log"), os.O_WRONLY|os.O_CREATE, 0666)
