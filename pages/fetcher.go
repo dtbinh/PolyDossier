@@ -1,18 +1,20 @@
 package pages
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 )
 
 type Functions struct {
-  List []string
+	List []string
 }
 
 func ListFunctions(c Credentials) []byte {
-  functions := Functions{[]string{"PersInfo", "Bullletin", "Horraire", "ChoixCours", "Financier"}}
-	
+	functions := Functions{[]string{"PersInfo", "Bullletin", "Horraire", "ChoixCours", "Financier"}}
+
 	encoded, err := json.Marshal(functions)
-	if err != nil { fmt.Println("Json Marshaling issues")}
+	if err != nil {
+		fmt.Println("Json Marshaling issues")
+	}
 	return encoded
 }
