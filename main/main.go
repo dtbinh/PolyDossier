@@ -16,6 +16,7 @@ import (
 
 const kPolyHost = "https://www4.polymtl.ca"
 const kLogFile = "request"
+const kRoot = "/"
 
 func main() {
 	file, _ := os.OpenFile(fmt.Sprintf("%s_%d%s", kLogFile, time.Now().Unix(), ".log"), os.O_WRONLY|os.O_CREATE, 0666)
@@ -34,6 +35,9 @@ func onHandleRequest(w http.ResponseWriter, r *http.Request) {
 }
 
 func doHandleRequest(w http.ResponseWriter, r *http.Request) {
+  if r.URL.Path[0] == kRoot { w.Write(DefaultPage()) }
+	
+	
 	switch r.URL.Path {
 	case "/":
 		// w.Write(tools.ParseHTML(w,r))
@@ -56,13 +60,14 @@ func DefaultPage() []byte {
 	defer file.Close()
 	if err != nil {
 		fmt.Println("Opening default page : " + err.Error())
+		return []byte{}
 	}
 
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
 		fmt.Println("Reading default page : " + err.Error())
+		return []byte{}
 	}
-
 	return data
 }
 
@@ -106,7 +111,7 @@ func doGet(path string) ([]byte, error) {
 			return pages.ListFunctions(c), nil
 		}
 
-	}
+	} else 
 	return []byte{}, errors.ErrUnimplemented
 }
 func doPost(path string) ([]byte, error) {

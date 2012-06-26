@@ -17,9 +17,10 @@
     #Informations h1{font-size:3.2em}
     #Informations p{text-align:justify;font-family:Trebuchet;padding:0 35px}
     #Informations input{text-align:center}
-    #Sync{background:#eee;border:1px solid #bab;width:180px;height:70px;font-size:2em;color:#555;font-weight:bold;cursor:pointer;transition:box-shadow 300ms;-moz-transition:box-shadow 300ms;-webkit-transition:box-shadow 300ms;-o-transition:box-shadow 300ms;margin:20px 0;border-radius:5px}
+    #Sync{background:#eee;border:1px solid #bab;width:180px;height:70px;font-size:2em;color:#555;font-weight:bold;cursor:pointer;transition:box-shadow 300ms;-moz-transition:box-shadow 300ms;-webkit-transition:box-shadow 300ms;-o-transition:box-shadow 300ms;margin:20px 0 5px 0;border-radius:5px}
     #Sync:hover{color:#111;border:1px solid #bab;box-shadow:0 0 3px #888}
 		#Informations div{width:100%;height:35px;text-align:center;box-shadow:0 3px 5px #888;color:#888;background-image: linear-gradient(bottom, rgb(136,136,136) 0%, rgb(68,68,68) 69%);}
+		#errorStr {color:#771111;}
   </style>
 </head>
 <body>
@@ -43,7 +44,8 @@
         <input name="password" type="password" required="required" onblur="Student.password = this.value;"/>
       Date de naissance :
         <input name="dateOfBirth" type="text" placeholder="AAMMJJ" required="required" onblur="Student.dateOfBirth = this.value;"/>
-        <input id="Sync" type="button" value="Sync" onclick="FetchActions();" />
+        <input id="Sync" type="button" value="Sync" onclick="Student.TryAuth();" /><br />
+				<span id="errorStr">&nbsp;asdasd</span>
     </form>
   </div>
 </body>

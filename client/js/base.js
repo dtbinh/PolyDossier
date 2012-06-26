@@ -1,5 +1,7 @@
-/*
- * Basic student reprensentation
+/* File containing basic functions and reprensentation
+ * for the use of studash.
+ * Author : Maxime Lavigne
+ * Author : Eliott Mahout
  */
  
  var Student = {
@@ -7,7 +9,11 @@
 	 username    : "malesd",
 	 password    : "rr11ee22",
 	 dateOfBirth : "890822",
-	 Uri         : function() { return "/u/" + this.username; }
+	 Credentials : function() { return { code : this.username, nip : this.password, naissance : this.dateOfBirth }},
+	 Uri         : function() { return "/u/" + this.username; },
+	 TryAuth     : function() {
+	   $.post("/auth", this.Credentials()).success(function(data) { console.log(data); });
+	 }
  }
  
 function FetchActions() {

@@ -6,6 +6,10 @@ type Credentials struct {
 	Birth string
 }
 
+func Serve(r *http.Request) ([]byte, error) {
+
+}
+
 // func goHandler(w http.ResponseWriter, r *http.Request) {
 // log.Println("Lolsaure")
 // //file.Write([]byte("lolsaure\n"))
