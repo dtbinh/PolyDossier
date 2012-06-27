@@ -4,6 +4,7 @@
  * Author : Eliott Mahout
  */
  
+ /*
  var Student = {
    name        : "John Doe",
 	 username    : "malesd",
@@ -31,3 +32,4 @@ function FetchActions() {
 		}
   });
 }
+*/

@@ -1,21 +1,42 @@
 /**
- * Base code for the student object.
+ * @fileoverview Outils important ayant lien au concept d'utilisateur.
+ *
+ * Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+ * the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
+ * of type and scrambled it to make a type specimen book. It has survived not only five centuries,
+ * but also the leap into electronic typesetting, remaining essentially unchanged. It was
+ * popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+ * and more recently with desktop publishing software like Aldus PageMaker including versions
+ * of Lorem Ipsum.
  */
- goog.require('goog.json');
- 
- goog.provide('student')
- goog.provide('student.Credentials')
+goog.provide('studash')
+goog.provide('studash.Student')
+goog.provide('studash.Student.Credentials')
+	
+goog.require('goog.json');
  
 /**
  * Donnés de connection de l'utilisateur.
- * @param {string} username Le nom d'utilisateur.
- * @param {string} password Le mot de passe.
- * @param {string} dateOfBirth La date de naissance. (jj/mm/aa)
+ * @param {string=} opt_username Le nom d'utilisateur. (optional)
+ * @param {string=} opt_password Le mot de passe. (optional)
+ * @param {string=} opt_dateOfBirth La date de naissance. (jj/mm/aa) (optional)
  * @constructor
  */
-student.Credentials = function(username, password, dateOfBirth) {
+studash.Student.Credentials = function(opt_username, opt_password, opt_dateOfBirth) {
+  /**
+	 * Le code utilisateur demandé par le dossier.
+	 * @type {string|undefined} 
+	 */
 	this.Username = username;
+	/**
+	 * Le mot de passe demandé par le dossier.
+	 * @type {string|undefined} 
+	 */
 	this.Password = password;
+	/**
+	 * La date de naissance demandé par le dossier.
+	 * @type {string|undefined} 
+	 */
 	this.DateOfBirth = dateOfBirth;
 };
 
@@ -23,8 +44,8 @@ student.Credentials = function(username, password, dateOfBirth) {
  * Fonction sérialisant les credentials.
  * @return {string} Serialized Json Object.
  */
-student.Credentials.prototype.serialize =  function() {
-  return goog.json.serialize({ 'username': this.username, 'password': this.password, 'dateOfBirth': this.dateOfBirth})
+studash.Student.Credentials.prototype.serialize =  function() {
+  return goog.json.serialize({ 'username': this.Username, 'password': this.Password, 'dateOfBirth': this.DateOfBirth})
 };
 
  // var Student = {

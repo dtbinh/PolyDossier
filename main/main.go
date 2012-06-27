@@ -2,11 +2,11 @@
 package main
 
 import (
-	"studash/errors"
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net/http"	
+	"net/http"
+	"studash/errors"
 	// "studash/tools"
 	"os"
 	"strings"
@@ -35,9 +35,10 @@ func onHandleRequest(w http.ResponseWriter, r *http.Request) {
 }
 
 func doHandleRequest(w http.ResponseWriter, r *http.Request) {
-  if r.URL.Path[0] == kRoot { w.Write(DefaultPage()) }
-	
-	
+	if r.URL.Path[0] == kRoot {
+		w.Write(DefaultPage())
+	}
+
 	switch r.URL.Path {
 	case "/":
 		// w.Write(tools.ParseHTML(w,r))
@@ -111,8 +112,9 @@ func doGet(path string) ([]byte, error) {
 			return pages.ListFunctions(c), nil
 		}
 
-	} else 
-	return []byte{}, errors.ErrUnimplemented
+	} else {
+		return []byte{}, errors.ErrUnimplemented
+	}
 }
 func doPost(path string) ([]byte, error) {
 	return []byte{}, errors.ErrUnimplemented
