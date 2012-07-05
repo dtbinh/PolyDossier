@@ -2,6 +2,8 @@ package adapters
 
 import (
 	"studash/tools"
+	"studash/errors"
+	"net/http"	
 )
 
 const kPolyHost = "https://www4.polymtl.ca"
@@ -11,7 +13,7 @@ type DefaultAdapter struct {
 }
 
 
-func goResponse(r *http.Request) (*http.Response, error) {
+func GoResponse(r *http.Request) (*http.Response, error) {
 	defaultClient := &http.Client{}
 
 	// Si on arrive sur la page.
