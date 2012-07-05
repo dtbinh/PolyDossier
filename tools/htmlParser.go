@@ -9,29 +9,6 @@ import (
 	"time"
 )
 
-const kPolyHost = "https://www4.polymtl.ca"
-
-func goResponse(r *http.Request) (*http.Response, error) {
-	defaultClient := &http.Client{}
-
-	// Si on arrive sur la page.
-	if r.URL.Path == "/" {
-		return defaultClient.Get("http://www.iana.org/domains/example/")
-		// return defaultClient.Get(kPolyHost + "/poly/poly.html")
-	}
-
-	switch r.Method {
-	case "GET":
-		return defaultClient.Get(kPolyHost + r.URL.Path)
-	case "POST":
-		r.ParseForm()
-		return defaultClient.PostForm(kPolyHost+r.URL.Path, r.Form)
-	default:
-		return nil, &errors.RequestError{Method: r.Method, Ierror: errors.ErrMethod}
-	}
-	return nil, nil
-}
-
 func ParseHTML(w http.ResponseWriter, r *http.Request) []byte {
 	t := time.Now()
 	resp, err := goResponse(r)
