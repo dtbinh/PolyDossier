@@ -9,6 +9,7 @@ import (
 	"net/http"	
 	// "studash/tools"
 	"os"
+	"strings"
 	"studash/pages"
 	"time"
 )
@@ -37,6 +38,8 @@ func doHandleRequest(w http.ResponseWriter, r *http.Request) {
 	case "/":
 		// w.Write(tools.ParseHTML(w,r))
 		w.Write(DefaultPage())
+	case "/js/base.js":
+		w.Write(DefaultScript())
 	default:
 		{
 			data, err := doAction(r.Method, r.URL.Path)
@@ -63,6 +66,21 @@ func DefaultPage() []byte {
 	return data
 }
 
+func DefaultScript() []byte {
+	file, err := os.Open("../src/studash/client/js/base.js")
+	defer file.Close()
+	if err != nil {
+		fmt.Println("Opening default script : " + err.Error())
+	}
+
+	data, err := ioutil.ReadAll(file)
+	if err != nil {
+		fmt.Println("Reading default script : " + err.Error())
+	}
+
+	return data
+}
+
 func doAction(method, path string) ([]byte, error) {
 	switch method {
 	case "GET":
@@ -78,8 +96,16 @@ func doAction(method, path string) ([]byte, error) {
 }
 
 func doGet(path string) ([]byte, error) {
+	c := pages.Credentials{"temp", "temp", "temp"}
+
 	if path[0:3] == "/u/" {
-		return pages.ListFunctions(pages.Credentials{"temp", "temp", "temp"}), nil
+		if strings.Contains(path[4:], "/") {
+			endidx := strings.LastIndex(path[4:], "/")
+			return pages.FetchInfos(c, path[5+endidx:]), nil
+		} else {
+			return pages.ListFunctions(c), nil
+		}
+
 	}
 	return []byte{}, errors.ErrUnimplemented
 }
