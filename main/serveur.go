@@ -2,106 +2,70 @@
 package main
 
 import (
-	"net/http"
-	"log"
-	"time"
 	"fmt"
-	"os"
 	"io/ioutil"
-	"studash/errors"
+	"log"
+	"net/http"
+	"os"
 	"strings"
-	"studash/pages"
+	"studash/errors"
+	//"studash/pages"
+	"time"
 )
 
 func onHandleRequest(w http.ResponseWriter, r *http.Request) {
-    log.Println("[INFO] : Bagamon")
 	start := time.Now()
 	doHandleRequest(w, r)
 	log.Println(fmt.Sprintf("[%s] - %s", time.Since(start), r.URL.Path))
 }
 
 func doHandleRequest(w http.ResponseWriter, r *http.Request) {
-	switch r.URL.Path {
-	case "/":
-		// w.Write(tools.ParseHTML(w,r))
+	ctx := strings.Split(r.URL.Path, "/")
+
+	// Page root 
+	// Note : Étant donné que le premier charactere est un slash, il donne vide en 0.
+	if ctx[1] == "" {
 		w.Write(DefaultPage())
-	case "/js/base.js":
-		w.Write(DefaultScript())
-	default:
-		{
-			data, err := doAction(r.Method, r.URL.Path)
-			if err != nil {
-				fmt.Println("Wrong method / path combination")
-			}
-			w.Write(data)
-		}
+		return
 	}
+
+	// Reste du site
+	data, err := do(r, ctx)
+	if err != nil {
+		log.Println("[ERROR]", err)
+	}
+	w.Write(data)
+}
+
+func do(r *http.Request, ctx []string) ([]byte, error) {
+	var data []byte = nil
+	switch ctx[1] {
+	case "auth":
+		data = []byte("Authentification")
+	case "u":
+		data = []byte("Utilisateur")
+	case "c":
+		data = []byte("Comites")
+	case "p":
+		data = []byte("Poly")
+	}
+	if data != nil {
+		return data, nil
+	}
+	return nil, &errors.RequestError{Action: ctx[1], Method: r.Method, Problem: "Action illegale."}
 }
 
 func DefaultPage() []byte {
 	file, err := os.Open("../src/studash/client/index.html")
 	defer file.Close()
 	if err != nil {
-		fmt.Println("Opening default page : " + err.Error())
+		log.Print("[ERROR] : Def Pag Open", err)
 	}
 
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
-		fmt.Println("Reading default page : " + err.Error())
+		log.Print("[ERROR] : Def Pag Read", err)
 	}
 
 	return data
-}
-
-func DefaultScript() []byte {
-	file, err := os.Open("../src/studash/client/js/base.js")
-	defer file.Close()
-	if err != nil {
-		fmt.Println("Opening default script : " + err.Error())
-	}
-
-	data, err := ioutil.ReadAll(file)
-	if err != nil {
-		fmt.Println("Reading default script : " + err.Error())
-	}
-
-	return data
-}
-
-func doAction(method, path string) ([]byte, error) {
-	switch method {
-	case "GET":
-		return doGet(path)
-	case "POST":
-		return doPost(path)
-	case "PUT":
-		return doPut(path)
-	case "DELETE":
-		return doDelete(path)
-	}
-	return []byte{}, errors.ErrUnimplemented
-}
-
-func doGet(path string) ([]byte, error) {
-	c := pages.Credentials{"temp", "temp", "temp"}
-
-	if path[0:3] == "/u/" {
-		if strings.Contains(path[4:], "/") {
-			endidx := strings.LastIndex(path[4:], "/")
-			return pages.FetchInfos(c, path[5+endidx:]), nil
-		} else {
-			return pages.ListFunctions(c), nil
-		}
-
-	}
-	return []byte{}, errors.ErrUnimplemented
-}
-func doPost(path string) ([]byte, error) {
-	return []byte{}, errors.ErrUnimplemented
-}
-func doPut(path string) ([]byte, error) {
-	return []byte{}, errors.ErrUnimplemented
-}
-func doDelete(path string) ([]byte, error) {
-	return []byte{}, errors.ErrUnimplemented
 }

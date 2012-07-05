@@ -2,10 +2,10 @@
 package main
 
 import (
+	"flag"
+	"log"
 	"net/http"
 	"studash/tools"
-	"log"
-	"flag"
 )
 
 var (
@@ -16,16 +16,16 @@ var (
 const PolyHostName = "https://www4.polymtl.ca"
 
 // Function init nous permettant d'initialiser le débogging.
-func init() { 
+func init() {
 	flag.Parse()
 	tools.SetUpLogging(*debug)
 }
 
 // Point d'entré de notre program studash.
 func main() {
-    log.Println("[INFO] : Démarrage Serveur")
+	log.Println("[INFO] : Démarrage Serveur")
 	http.HandleFunc("/", onHandleRequest)
 	http.ListenAndServe(":http", nil)
 
-	tools.ExitSuccess();
+	tools.ExitSuccess()
 }

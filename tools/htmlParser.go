@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"studash/errors"
 	"time"
 )
 
@@ -20,15 +19,15 @@ func goResponse(r *http.Request) (*http.Response, error) {
 		// return defaultClient.Get(kPolyHost + "/poly/poly.html")
 	}
 
-	switch r.Method {
-	case "GET":
-		return defaultClient.Get(kPolyHost + r.URL.Path)
-	case "POST":
-		r.ParseForm()
-		return defaultClient.PostForm(kPolyHost+r.URL.Path, r.Form)
-	default:
-		return nil, &errors.RequestError{Method: r.Method, Ierror: errors.ErrMethod}
-	}
+	// switch r.Method {
+	// case "GET":
+	// return defaultClient.Get(kPolyHost + r.URL.Path)
+	// case "POST":
+	// r.ParseForm()
+	// return defaultClient.PostForm(kPolyHost+r.URL.Path, r.Form)
+	// default:
+	// return nil, &errors.RequestError{Method: r.Method, Ierror: errors.ErrMethod}
+	// }
 	return nil, nil
 }
 

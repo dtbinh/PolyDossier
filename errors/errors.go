@@ -6,12 +6,13 @@ import (
 )
 
 type RequestError struct {
-	Method string
-	Ierror error
+	Action  string
+	Method  string
+	Problem string
 }
 
 func (r *RequestError) Error() string {
-	return fmt.Sprintf("%s got %s", r.Method, r.Ierror)
+	return fmt.Sprintf("[%s]<%s> -> %s", r.Action, r.Method, r.Problem)
 }
 
 var (

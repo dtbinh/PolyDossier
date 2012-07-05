@@ -1,2 +1,2 @@
 @echo off
-FOR %%F IN (errors adapters pages tools) DO fmtOne.bat %%F
+FOR %%F IN (errors adapters pages tools main) DO fmtOne.bat %%F
