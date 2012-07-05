@@ -1,9 +1,9 @@
 package adapters
 
-import (
-	"studash/tools"
-)
+// import (
+	// "studash/tools"
+// )
 
-type DefaultAdapter struct {
-	parser tools.HTMLParser
-}
+// type DefaultAdapter struct {
+	// parser tools.HTMLParser
+// }
