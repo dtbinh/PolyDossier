@@ -1,4 +1,2 @@
 @echo off
-PUSHD ..\..\..\bin\
-.\main.exe
-POPD
+..\..\..\bin\main.exe
