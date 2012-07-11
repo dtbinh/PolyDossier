@@ -8,7 +8,7 @@ import (
 	"flag"
 )
 
-var (
+var ( trololo
 	debug = flag.Bool("d", false, "Partir le program en mode debug")
 )
 
