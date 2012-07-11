@@ -1,9 +1,8 @@
-// Le fichier principal qui contient l'entrée du fichier go.
+// Connection au serveur et distribution élémentaire des tâches.
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
+	"flag"
 	"log"
 	"net/http"
 	"studash/errors"
@@ -14,18 +13,27 @@ import (
 	"time"
 )
 
-const kPolyHost = "https://www4.polymtl.ca"
-const kLogFile = "request"
+var (
+	debug = flag.Bool("d", false, "Partir le program en mode debug")
+)
 const kRoot = "/"
 
-func main() {
-	file, _ := os.OpenFile(fmt.Sprintf("%s_%d%s", kLogFile, time.Now().Unix(), ".log"), os.O_WRONLY|os.O_CREATE, 0666)
-	log.SetOutput(file)
+// Le nom à contacter pour le dossier étudiant.
+const PolyHostName = "https://www4.polymtl.ca"
 
+// Function init nous permettant d'initialiser le débogging.
+func init() {
+	flag.Parse()
+	tools.SetUpLogging(*debug)
+}
+
+// Point d'entré de notre program studash.
+func main() {
+	log.Println("[INFO] : Démarrage Serveur")
 	http.HandleFunc("/", onHandleRequest)
 	http.ListenAndServe(":http", nil)
 
-	defer file.Close()
+	tools.ExitSuccess()
 }
 
 func onHandleRequest(w http.ResponseWriter, r *http.Request) {
