@@ -1,5 +1,5 @@
 @echo off
-PUSHD ..\..\..\
+PUSHD ..\..\
 go install studash/adapters
 go install studash/errors
 go install studash/pages
