@@ -39,7 +39,7 @@ func main() {
 }
 
 func DefaultScript() []byte {
-	file, err := os.Open("../src/studash/client/js/base.js")
+	file, err := os.Open("client/js/base.js")
 	defer file.Close()
 	if err != nil {
 		fmt.Println("Opening default script : " + err.Error())
