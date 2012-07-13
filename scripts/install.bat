@@ -1,11 +1,5 @@
-################################################
-#  Script préparant le programme à être lancé. #
-################################################
-
-
-
-cd @echo off
-PUSHD ..\..\..\
+@echo off
+PUSHD ..\..\
 go install studash/adapters
 go install studash/errors
 go install studash/pages
