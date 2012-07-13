@@ -2,18 +2,19 @@
 package main
 
 import (
+	"fmt"
 	"flag"
 	"log"
+	"io/ioutil"
 	"net/http"
 	"studash/errors"
-	// "studash/tools"
+	"studash/tools"
 	"os"
 	"strings"
 	"studash/pages"
-	"time"
 )
 
-var ( trololo
+var (
 	debug = flag.Bool("d", false, "Partir le program en mode debug")
 )
 const kRoot = "/"
@@ -34,50 +35,6 @@ func main() {
 	http.ListenAndServe(":http", nil)
 
 	tools.ExitSuccess()
-}
-
-func onHandleRequest(w http.ResponseWriter, r *http.Request) {
-	start := time.Now()
-	doHandleRequest(w, r)
-	log.Println(fmt.Sprintf("[%s] - %s", time.Since(start), r.URL.Path))
-}
-
-func doHandleRequest(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path[0] == kRoot {
-		w.Write(DefaultPage())
-	}
-
-	switch r.URL.Path {
-	case "/":
-		// w.Write(tools.ParseHTML(w,r))
-		w.Write(DefaultPage())
-	case "/js/base.js":
-		w.Write(DefaultScript())
-	default:
-		{
-			data, err := doAction(r.Method, r.URL.Path)
-			if err != nil {
-				fmt.Println("Wrong method / path combination")
-			}
-			w.Write(data)
-		}
-	}
-}
-
-func DefaultPage() []byte {
-	file, err := os.Open("../src/studash/client/index.html")
-	defer file.Close()
-	if err != nil {
-		fmt.Println("Opening default page : " + err.Error())
-		return []byte{}
-	}
-
-	data, err := ioutil.ReadAll(file)
-	if err != nil {
-		fmt.Println("Reading default page : " + err.Error())
-		return []byte{}
-	}
-	return data
 }
 
 func DefaultScript() []byte {
@@ -120,9 +77,9 @@ func doGet(path string) ([]byte, error) {
 			return pages.ListFunctions(c), nil
 		}
 
-	} else {
-		return []byte{}, errors.ErrUnimplemented
-	}
+	} 
+	
+	return []byte{}, errors.ErrUnimplemented
 }
 func doPost(path string) ([]byte, error) {
 	return []byte{}, errors.ErrUnimplemented

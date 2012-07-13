@@ -1,5 +1,9 @@
 package pages
 
+import (
+	"net/http"
+)
+
 type Credentials struct {
 	Id    string
 	Pass  string
@@ -7,7 +11,7 @@ type Credentials struct {
 }
 
 func Serve(r *http.Request) ([]byte, error) {
-
+	return nil, nil
 }
 
 // func goHandler(w http.ResponseWriter, r *http.Request) {

@@ -36,7 +36,7 @@ func GoResponse(r *http.Request) (*http.Response, error) {
 	default:
 		// If you get here... WTF are you trying to do ?
 		// crash-test ?
-		return nil, &errors.RequestError{Method: r.Method, Ierror: errors.ErrMethod}
+		return nil, &errors.RequestError{Action: r.URL.Path ,Method: r.Method, Problem: errors.ErrMethod.Error()}
 	}
 	return nil, nil
 }
