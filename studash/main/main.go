@@ -3,11 +3,8 @@ package main
 
 import (
 	"flag"
-	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"strings"
 	"studash/errors"
 	"studash/pages"
@@ -36,21 +33,6 @@ func main() {
 	http.ListenAndServe(":http", nil)
 
 	tools.ExitSuccess()
-}
-
-func DefaultScript() []byte {
-	file, err := os.Open("client/js/base.js")
-	defer file.Close()
-	if err != nil {
-		fmt.Println("Opening default script : " + err.Error())
-	}
-
-	data, err := ioutil.ReadAll(file)
-	if err != nil {
-		fmt.Println("Reading default script : " + err.Error())
-	}
-
-	return data
 }
 
 func doAction(method, path string) ([]byte, error) {

@@ -9,7 +9,6 @@ import (
 	"os"
 	"strings"
 	"studash/errors"
-	//"studash/pages"
 	"time"
 )
 
@@ -26,6 +25,11 @@ func doHandleRequest(w http.ResponseWriter, r *http.Request) {
 	// Note : Étant donné que le premier charactere est un slash, il donne vide en 0.
 	if ctx[1] == "" {
 		w.Write(DefaultPage())
+		return
+	}
+
+	if ctx[1] == "_" {
+		w.Write(DefaultScript())
 		return
 	}
 
@@ -65,6 +69,21 @@ func DefaultPage() []byte {
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
 		log.Print("[ERROR] : Def Pag Read", err)
+	}
+
+	return data
+}
+
+func DefaultScript() []byte {
+	file, err := os.Open("client/_")
+	defer file.Close()
+	if err != nil {
+		log.Print("[ERROR] : Def script Open", err)
+	}
+
+	data, err := ioutil.ReadAll(file)
+	if err != nil {
+		log.Print("[ERROR] : Def script Read", err)
 	}
 
 	return data
