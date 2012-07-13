@@ -2,7 +2,7 @@
 #  Script permettant de faire la compilation du Javascript sur le site. #
 ##########################################################################
 
-$namespace = "studash"
+$namespace = "studash.Student", "studash"
 $outfile = "client/_"
 
 
@@ -10,15 +10,20 @@ $outfile = "client/_"
 $goPath = $env:gopath
 $closurePath = $env:closure
 
+$root = "client/js/", "$closurePath/library/"
+
 $buildScript = "$closurePath/library/closure/bin/build/closurebuilder.py"
-$closureLib = "$closurePath/library/"
 $closureCompiler = "$closurePath/compiler/build/compiler.jar"
-$srcFolder = "client/js/"
+
+$opt = "--output_mode=compiled --compiler_jar=$closureCompiler "
+#$opt = "--output_mode=compiled --compiler_jar=$closureCompiler --compiler_flags='--compilation_level=ADVANCED_OPTIMIZATIONS'"
 
 # --- Batissons la commande.
-$exec = "python $buildScript --root=$closureLib --root=$srcFolder --output_mode=compiled"
-$exec = "$exec --namespace='$namespace' --compiler_jar=$closureCompiler"
-$exec = "$exec --compiler_flags='--compilation_level=ADVANCED_OPTIMIZATIONS' --output_file=$outfile"
+$exec = "python $buildScript"
+
+foreach ($namespc in $namespace) { $exec = "$exec --namespace='$namespc'"}
+foreach ($src in $root) { $exec = "$exec --root='$src'"}
+$exec = "$exec $opt --output_file=$outfile"
 
 # --- Executon la commande
 #Write-Output $exec

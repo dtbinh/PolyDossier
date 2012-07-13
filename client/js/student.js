@@ -9,7 +9,6 @@
  * and more recently with desktop publishing software like Aldus PageMaker including versions
  * of Lorem Ipsum.
  */
-goog.provide('studash')
 goog.provide('studash.Student')
 goog.provide('studash.Student.Credentials')
 	
@@ -27,17 +26,17 @@ studash.Student.Credentials = function(opt_username, opt_password, opt_dateOfBir
 	 * Le code utilisateur demandé par le dossier.
 	 * @type {string|undefined} 
 	 */
-	this.Username = username;
+	this.Username = opt_username;
 	/**
 	 * Le mot de passe demandé par le dossier.
 	 * @type {string|undefined} 
 	 */
-	this.Password = password;
+	this.Password = opt_password;
 	/**
 	 * La date de naissance demandé par le dossier.
 	 * @type {string|undefined} 
 	 */
-	this.DateOfBirth = dateOfBirth;
+	this.DateOfBirth = opt_dateOfBirth;
 };
 
 /**

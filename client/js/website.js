@@ -9,13 +9,10 @@
  * and more recently with desktop publishing software like Aldus PageMaker including versions
  * of Lorem Ipsum.
  */
-goog.provide('studash.Website')
-goog.provide('studash.Website.Proxy')
+goog.provide('studash')
  
 goog.require('goog.net.XhrIo');
-goog.require('goog.events');
 goog.require('goog.json');
-goog.require('studash.Student.Credentials')
  
 /**
  * Actions principales du site.
@@ -27,16 +24,10 @@ studash.Actions = {
 }
  
 /**
- * Un objet proxy pour l'utilisation des fonctions du site.
- * @constructor
- */
-studash.Website = function() {}
- 
-/**
  * Fonction permettant de s'authentifier au site web.
  * @param {student.Credentials} credentials Infos de connection.
  */
-studash.Website.prototype.Authenticate = function(credentials) {
+studash.authenticate = function(credentials) {
 	goog.net.XhrIo.send(studash.Actions.Auth, function(e) {
 		var xhr = e.target;
     var obj = xhr.getResponseJson();
@@ -44,21 +35,14 @@ studash.Website.prototype.Authenticate = function(credentials) {
   }, 'POST', credentials.serialize(), {'content-type':'application/json'}, 2000);
 }
 
-goog.exportSymbol('studash.Actions', studash.Actions)
-goog.exportSymbol('studash.Website.prototype.Authenticate', studash.Website.prototype.Authenticate)
+document.getElementById('Sync').addEventListener('click', function(e) {
+ console.debug(document.forms[0][0].value)
+  var credentials = new studash.Student.Credentials(document.forms[0][0].value,
+			document.forms[0][1].value, document.forms[0][2].value);
+	console.debug(credentials)
+  studash.authenticate(credentials);
+})
 
-// function FetchActions() {
-	// $.getJSON(Student.Uri(), function(actions) {
-	  
-		// var nActions = actions.List.length;
-		// for (i = 0; i < nActions; i++) {
-	    // var fetchUri = Student.Uri() + "/" + actions.List[i];
-		  // $('#Informations').append("<div id=\"" + actions.List[i] + "\">Loading...</div>"); 
-			// $.get(fetchUri)
-       // .success(function(data) {
-			   // var action = this.url.replace(Student.Uri() + '/', '');
-			   // $('#' + action).text(data);
-			 // });
-		// }
-  // });
-// }
+goog.exportSymbol('studash.Actions', studash.Actions)
+goog.exportSymbol('studash.authenticate', studash.authenticate)
+

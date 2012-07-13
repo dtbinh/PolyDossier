@@ -36,14 +36,14 @@
       leurs consultation même lorsque les serveurs de Polytechnique ne sont pas
       accessibles.
     </p>
-    <form method="POST" action="/auth">
+    <form method="POST" action="/auth"> 
       Nom usager : 
-        <input name="username" type="text" placeholder="malavv" required="required" onblur="Student.username = this.value;" />
+        <input name="username" type="text" placeholder="malavv" required="required" />
       Mot de passe :
-        <input name="password" type="password" required="required" onblur="Student.password = this.value;"/>
+        <input name="password" type="password" required="required" />
       Date de naissance :
-        <input name="dateOfBirth" type="text" placeholder="AAMMJJ" required="required" onblur="Student.dateOfBirth = this.value;"/>
-        <input id="Sync" type="button" value="Sync" onclick="Student.TryAuth();" /><br />
+        <input name="dateOfBirth" type="text" placeholder="AAMMJJ" required="required" />
+        <input id="Sync" type="button" value="Sync" /><br />
 				<span id="errorStr">&nbsp;asdasd</span>
     </form>
   </div>

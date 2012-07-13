@@ -29,6 +29,7 @@ func doHandleRequest(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if ctx[1] == "_" {
+		w.Header().Set("Content-Type", "application/javascript")
 		w.Write(DefaultScript())
 		return
 	}
@@ -45,7 +46,7 @@ func do(r *http.Request, ctx []string) ([]byte, error) {
 	var data []byte = nil
 	switch ctx[1] {
 	case "auth":
-		data = []byte("Authentification")
+		data = []byte(`{"one":true,"three":["red","yellow",["blue","azure","cobalt","teal"],"orange"],"two":19.5}`)
 	case "u":
 		data = []byte("Utilisateur")
 	case "c":
