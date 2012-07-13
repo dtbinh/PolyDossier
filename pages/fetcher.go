@@ -24,6 +24,7 @@ func FetchInfos(c Credentials, funcName string) []byte {
 	case "PersInfo":
 		return []byte("Les informations personnelles de l'étudiant.")
 	case "Bulletin":
+		// return adapterFactory.Make(funcname).Parse(http.Get("loclaure"))
 		return []byte("Le bulletin de l'Étudiant.")
 	case "Horraire":
 		return []byte("L'horraire de l'étudiant.")
