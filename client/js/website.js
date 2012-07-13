@@ -44,6 +44,9 @@ studash.Website.prototype.Authenticate = function(credentials) {
   }, 'POST', credentials.serialize(), {'content-type':'application/json'}, 2000);
 }
 
+goog.exportSymbol('studash.Actions', studash.Actions)
+goog.exportSymbol('studash.Website.prototype.Authenticate', studash.Website.prototype.Authenticate)
+
 // function FetchActions() {
 	// $.getJSON(Student.Uri(), function(actions) {
 	  

@@ -48,6 +48,9 @@ studash.Student.Credentials.prototype.serialize =  function() {
   return goog.json.serialize({ 'username': this.Username, 'password': this.Password, 'dateOfBirth': this.DateOfBirth})
 };
 
+goog.exportSymbol('studash.Student.Credentials', studash.Student.Credentials)
+goog.exportSymbol('studash.Student.Credentials.serialize', studash.Student.Credentials.serialize)
+
  // var Student = {
    // name        : "John Doe",
 	 // username    : "malesd",

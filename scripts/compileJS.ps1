@@ -1,15 +1,28 @@
+#########################################################################
+#  Script permettant de faire la compilation du Javascript sur le site. #
+##########################################################################
+
+$namespace = "studash"
+$outfile = "result.js"
+
+
+# Ne pas toucher, variable autogénérés.
+$goPath = $env:gopath
+$closurePath = $env:closure
+
+$buildScript = "$closurePath/library/closure/bin/build/closurebuilder.py"
+$closureLib = "$closurePath/library/"
+$closureCompiler = "$closurePath/compiler/build/compiler.jar"
+$srcFolder = "$goPath/src/studash"
+
+
 #  Script name:    compileJS.ps1
 #  Created on:     2012-06-26 
 #  Purpose:        Compilation par closure du JS du site.
 
-$exec = "python $env:gopath/lib/closure/bin/build/closurebuilder.py";
-$exec = "$exec --root=$env:gopath/lib/"
-$exec = "$exec --root=$env:gopath/src/studash"
-$exec = "$exec --output_mode=compiled"
-$exec = "$exec --namespace='studash'"
-$exec = "$exec --compiler_jar=compiler.jar"
-$exec = "$exec --compiler_flags='--compilation_level=ADVANCED_OPTIMIZATIONS'"
-$exec = "$exec --output_file='out.js'"
+$exec = "python $buildScript --root=$closureLib --root=$srcFolder --output_mode=compiled"
+$exec = "$exec --namespace='$namespace' --compiler_jar=$closureCompiler"
+$exec = "$exec --compiler_flags='--compilation_level=ADVANCED_OPTIMIZATIONS' --output_file=$outfile"
 
 
 #Write-Output $exec
