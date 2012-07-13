@@ -56,7 +56,7 @@ func do(r *http.Request, ctx []string) ([]byte, error) {
 }
 
 func DefaultPage() []byte {
-	file, err := os.Open("../src/studash/client/index.html")
+	file, err := os.Open("client/index.html")
 	defer file.Close()
 	if err != nil {
 		log.Print("[ERROR] : Def Pag Open", err)
