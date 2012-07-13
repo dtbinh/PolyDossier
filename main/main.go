@@ -17,6 +17,7 @@ import (
 var (
 	debug = flag.Bool("d", false, "Partir le program en mode debug")
 )
+
 const kRoot = "/"
 
 // Le nom à contacter pour le dossier étudiant.
