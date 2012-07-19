@@ -9,8 +9,10 @@ import (
 const kPolyHost = "https://www4.polymtl.ca"
 
 type DefaultAdapter struct {
-	parser tools.HTMLParser
+	parser *tools.HTMLParser
 }
+
+// ----------- BELOW IS NOT REALY USED ------------ //
 
 func GoResponse(r *http.Request) (*http.Response, error) {
 	defaultClient := &http.Client{}
