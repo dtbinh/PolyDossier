@@ -13,6 +13,7 @@ goog.provide('studash')
  
 goog.require('goog.net.XhrIo');
 goog.require('goog.json');
+goog.require('goog.events')
  
 /**
  * Actions principales du site.
@@ -29,19 +30,29 @@ studash.Actions = {
  */
 studash.authenticate = function(credentials) {
 	goog.net.XhrIo.send(studash.Actions.Auth, function(e) {
-		var xhr = e.target;
-    var obj = xhr.getResponseJson();
-		console.log(obj);
+		var resp = e.target.getResponseJson();
+    if (resp.AuthResponse == true)  studash.enterDashboard();
+		else {
+		
+		  var span = document.getElementById('errorStr');
+			while (span.firstChild) {
+        span.removeChild(span.firstChild);
+      }
+      span.appendChild(document.createTextNode("Vos identifiants sont invalides."));
+		}
+		console.log(resp);
   }, 'POST', credentials.serialize(), {'content-type':'application/json'}, 2000);
 }
 
-document.getElementById('Sync').addEventListener('click', function(e) {
- console.debug(document.forms[0][0].value)
+studash.enterDashboard = function(credentials) {
+  alert('Changement de page');
+}
+
+goog.events.listen(document.getElementById('Sync'), goog.events.EventType.CLICK, function(e) {
   var credentials = new studash.Student.Credentials(document.forms[0][0].value,
 			document.forms[0][1].value, document.forms[0][2].value);
-	console.debug(credentials)
   studash.authenticate(credentials);
-})
+});
 
 goog.exportSymbol('studash.Actions', studash.Actions)
 goog.exportSymbol('studash.authenticate', studash.authenticate)

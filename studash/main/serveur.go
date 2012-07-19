@@ -11,6 +11,8 @@ import (
 	"os"
 	"strings"
 	"studash/errors"
+	//"studash/student"
+	"io"
 	"time"
 )
 
@@ -30,6 +32,7 @@ func doHandleRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Le JS compiler par Closure
 	if ctx[1] == "_" {
 		w.Header().Set("Content-Type", "application/javascript")
 		w.Write(DefaultScript())
@@ -60,6 +63,9 @@ func do(r *http.Request, ctx []string) ([]byte, error) {
 		return data, nil
 	}
 	return nil, &errors.RequestError{Action: ctx[1], Method: r.Method, Problem: "Action illegale."}
+}
+
+func PullCredentials(r *http.Request) {
 }
 
 func DefaultPage() []byte {
@@ -122,14 +128,22 @@ func Authenticate(r *http.Request) []byte {
 	resp, err := http.PostForm(postUrl, formz)
 
 	if err != nil {
-		log.Print("[ERROR] : Send Post", err)
+		log.Print("[ERROR] : Sending Auth to poly", err)
 	}
 
 	defer resp.Body.Close()
-	data, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Print("[ERROR] : Read Post", err)
-	}
 
-	return data
+	if IsReaderAtLeast(resp.Body, 2000) {
+		return []byte(`{"AuthResponse" : true}`)
+	}
+	return []byte(`{"AuthResponse" : false}`)
+}
+
+func IsReaderAtLeast(r io.Reader, size int) bool {
+	tmp := make([]byte, size)
+	_, err := io.ReadAtLeast(r, tmp, size)
+	if err == io.ErrUnexpectedEOF {
+		return false
+	}
+	return true
 }
