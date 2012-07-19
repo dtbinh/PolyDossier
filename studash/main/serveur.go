@@ -2,10 +2,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"studash/errors"
@@ -46,7 +48,7 @@ func do(r *http.Request, ctx []string) ([]byte, error) {
 	var data []byte = nil
 	switch ctx[1] {
 	case "auth":
-		data = []byte(`{"one":true,"three":["red","yellow",["blue","azure","cobalt","teal"],"orange"],"two":19.5}`)
+		data = Authenticate(r)
 	case "u":
 		data = []byte("Utilisateur")
 	case "c":
@@ -85,6 +87,48 @@ func DefaultScript() []byte {
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
 		log.Print("[ERROR] : Def script Read", err)
+	}
+
+	return data
+}
+
+func Authenticate(r *http.Request) []byte {
+	postUrl := PolyHostName + "/servlet/ValidationServlet"
+
+	defer r.Body.Close()
+	jsonForm, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Print("[ERROR] : Json Form ReadAll", err)
+	}
+
+	var formValues map[string]string
+	err = json.Unmarshal(jsonForm, &formValues)
+	if err != nil {
+		log.Print("[ERROR] : Json Form UnMarshall", err)
+	}
+
+	formz := url.Values{}
+	for key, value := range formValues {
+		switch key {
+		case "username":
+			formz.Add("code", value)
+		case "password":
+			formz.Add("nip", value)
+		case "dateOfBirth":
+			formz.Add("naissance", value)
+		}
+	}
+
+	resp, err := http.PostForm(postUrl, formz)
+
+	if err != nil {
+		log.Print("[ERROR] : Send Post", err)
+	}
+
+	defer resp.Body.Close()
+	data, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Print("[ERROR] : Read Post", err)
 	}
 
 	return data
