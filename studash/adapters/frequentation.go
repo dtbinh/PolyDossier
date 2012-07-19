@@ -7,12 +7,12 @@ import (
 // ------------------------------------------------------ //
 //            Builder pour la page frequentation          //
 // ------------------------------------------------------ //
-type FrequantationBuilder struct {
+type FrequentationBuilder struct {
 	DefaultAdapter
 }
 
 // Fonction GetParser de l'objet FrequantationBuilder
-func (f FrequantationBuilder) GetParser() *tools.HTMLParser {
+func (f FrequentationBuilder) GetParser() *tools.HTMLParser {
 	f.parser = &tools.HTMLParser{"Frequentaion"}
 	return f.parser
 }

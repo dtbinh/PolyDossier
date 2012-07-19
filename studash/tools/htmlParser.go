@@ -11,10 +11,11 @@ import (
 )
 
 type HTMLParser struct {
+	Msg string
 }
 
-func (*HTMLParser) Print() {
-	fmt.Println("This is an HTMLParser !!")
+func (p *HTMLParser) Print() {
+	fmt.Println(p.Msg)
 }
 
 // func ParseHTML(w http.ResponseWriter, r *http.Request) []byte {
