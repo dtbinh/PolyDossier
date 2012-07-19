@@ -1,8 +1,9 @@
 package tools
 
 import (
-// "exp/html"
-// "fmt"
+	// "exp/html"
+	"fmt"
+
 // "studash/adapters"
 // "io/ioutil"
 // "net/http"
@@ -10,6 +11,10 @@ import (
 )
 
 type HTMLParser struct {
+}
+
+func (*HTMLParser) Print() {
+	fmt.Println("This is an HTMLParser !!")
 }
 
 // func ParseHTML(w http.ResponseWriter, r *http.Request) []byte {
