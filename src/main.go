@@ -6,19 +6,26 @@ import (
 	"log"
 	"net/http"
 	// uncomment for test "studash/adapters"
+	"os"
 	"studash/tools"
 )
 
 var (
 	debug = flag.Bool("d", false, "Partir le program en mode debug")
+	dir   = flag.String("client", WorkDirError, "Dossier client [obligatoire]")
 )
 
 // Le nom à contacter pour le dossier étudiant.
 const PolyHostName = "https://www4.polymtl.ca"
+const WorkDirError = ""
 
 // Function init nous permettant d'initialiser le débogging.
 func init() {
 	flag.Parse()
+	if *dir == WorkDirError {
+		flag.PrintDefaults()
+		os.Exit(1)
+	}
 	tools.SetUpLogging(*debug)
 }
 
@@ -28,7 +35,7 @@ func main() {
 	// test the ADAPTORS
 	// ab := []adapters.AdapterBuilder{adapters.InformationBuilder{}, adapters.ReportBuilder{}, adapters.ScheduleBuilder{}, adapters.InternshipBuilder{}, adapters.FrequentationBuilder{}, adapters.FinanceBuilder{}}
 	// for _, adapter := range ab {
-		// adapter.GetParser().Print()
+	// adapter.GetParser().Print()
 	// }
 	// end of test
 

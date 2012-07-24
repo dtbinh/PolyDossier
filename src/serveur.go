@@ -69,7 +69,7 @@ func PullCredentials(r *http.Request) {
 }
 
 func DefaultPage() []byte {
-	file, err := os.Open("client/index.html")
+	file, err := os.Open(*dir + "index.html")
 	defer file.Close()
 	if err != nil {
 		log.Print("[ERROR] : Def Pag Open", err)
@@ -84,7 +84,7 @@ func DefaultPage() []byte {
 }
 
 func DefaultScript() []byte {
-	file, err := os.Open("client/_")
+	file, err := os.Open(*dir + "_")
 	defer file.Close()
 	if err != nil {
 		log.Print("[ERROR] : Def script Open", err)
