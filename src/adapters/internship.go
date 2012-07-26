@@ -13,6 +13,6 @@ type InternshipBuilder struct {
 
 // Fonction GetParser de l'objet InternshipBuilder
 func (i InternshipBuilder) GetParser() *tools.HTMLParser {
-	i.parser = &tools.HTMLParser{"Internship"}
+	i.parser = &tools.HTMLParser{"Internship", nil}
 	return i.parser
 }

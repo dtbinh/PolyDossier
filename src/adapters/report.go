@@ -13,6 +13,6 @@ type ReportBuilder struct {
 
 // Fonction GetParser de l'objet ReportBuilder
 func (r ReportBuilder) GetParser() *tools.HTMLParser {
-	r.parser = &tools.HTMLParser{"Report"}
+	r.parser = &tools.HTMLParser{"Report", nil}
 	return r.parser
 }

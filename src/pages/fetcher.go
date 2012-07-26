@@ -29,7 +29,7 @@ func FetchInfos(c Credentials, funcName string) []byte {
 	case "Horraire":
 		return []byte("L'horraire de l'étudiant.")
 	case "ChoixCours":
-		return []byte("Les possibilités de choix de cours offfertes.")
+		return []byte("Les possibilités de choix de cours offertes.")
 	case "Financier":
 		return []byte("Toutes les informations financières de l'étudiant.")
 	default:

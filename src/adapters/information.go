@@ -13,6 +13,6 @@ type InformationBuilder struct {
 
 // Fonction GetParser de l'objet InformationBuilder
 func (i InformationBuilder) GetParser() *tools.HTMLParser {
-	i.parser = &tools.HTMLParser{"Information"}
+	i.parser = &tools.HTMLParser{"Information", nil}
 	return i.parser
 }
