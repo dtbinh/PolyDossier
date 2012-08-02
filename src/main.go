@@ -31,7 +31,6 @@ func init() {
 
 // Point d'entré de notre program studash.
 func main() {
-
 	// test the ADAPTORS
 	// ab := []adapters.AdapterBuilder{adapters.InformationBuilder{}, adapters.ReportBuilder{}, adapters.ScheduleBuilder{}, adapters.InternshipBuilder{}, adapters.FrequentationBuilder{}, adapters.FinanceBuilder{}}
 	// for _, adapter := range ab {
