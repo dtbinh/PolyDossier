@@ -11,7 +11,8 @@ import (
 	"os"
 	"strings"
 	"studash/errors"
-	"studash/adapters"
+	//"studash/adapters"
+	//"studash/tools"
 	//"studash/student"
 	"io"
 	"time"
@@ -135,7 +136,7 @@ func Authenticate(r *http.Request) []byte {
 
 	defer resp.Body.Close()
 
-	fmt.Println(resp.Body)
+	//fmt.Println(resp.Body)
 	if IsReaderAtLeast(resp.Body, 2000) {
 		return []byte(`{"AuthResponse" : true}`)
 	}
@@ -146,8 +147,9 @@ func IsReaderAtLeast(r io.Reader, size int) bool {
 	tmp := make([]byte, size)
 	
 	// test //
-	login := adapters.LoginBuilder{}
-	login.GetParser(r).GetValue("value","input")
+	//login := adapters.LoginBuilder{}
+	//login.GetParser(r).GetValue("value","input", tools.HTMLParameter{"name", "token"})
+	//login.GetParser(r).GetValue("value","input", tools.HTMLParameter{"name", "matricule"})
 	//////////
 	
 	_, err := io.ReadAtLeast(r, tmp, size)
