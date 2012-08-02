@@ -11,6 +11,7 @@ import (
 	"os"
 	"strings"
 	"studash/errors"
+	"studash/adapters"
 	//"studash/student"
 	"io"
 	"time"
@@ -44,6 +45,7 @@ func doHandleRequest(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("[ERROR]", err)
 	}
+	
 	w.Write(data)
 }
 
@@ -133,6 +135,7 @@ func Authenticate(r *http.Request) []byte {
 
 	defer resp.Body.Close()
 
+	fmt.Println(resp.Body)
 	if IsReaderAtLeast(resp.Body, 2000) {
 		return []byte(`{"AuthResponse" : true}`)
 	}
@@ -141,6 +144,12 @@ func Authenticate(r *http.Request) []byte {
 
 func IsReaderAtLeast(r io.Reader, size int) bool {
 	tmp := make([]byte, size)
+	
+	// test //
+	login := adapters.LoginBuilder{}
+	login.GetParser(r).GetValue("value","input")
+	//////////
+	
 	_, err := io.ReadAtLeast(r, tmp, size)
 	if err == io.ErrUnexpectedEOF {
 		return false

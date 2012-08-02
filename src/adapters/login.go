@@ -2,6 +2,7 @@ package adapters
 
 import (
 	"studash/tools"
+	"io"
 )
 
 // func (*DefaultAdapter) Run (r *http.Request) {
@@ -21,7 +22,7 @@ type LoginBuilder struct {
 }
 
 // Fonction GetParser de l'objet LoginBuilder
-func (l LoginBuilder) GetParser() *tools.HTMLParser {
-	l.parser = &tools.HTMLParser{"Login"}
+func (l LoginBuilder) GetParser(r io.Reader) *tools.HTMLParser {
+	l.parser = &tools.HTMLParser{"Login", r}
 	return l.parser
 }
