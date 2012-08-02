@@ -135,7 +135,7 @@ func Authenticate(r *http.Request) []byte {
 
 	defer resp.Body.Close()
 
-	fmt.Println(resp.Body)
+	//fmt.Println(resp.Body)
 	if IsReaderAtLeast(resp.Body, 2000) {
 		return []byte(`{"AuthResponse" : true}`)
 	}
