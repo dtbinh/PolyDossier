@@ -14,6 +14,8 @@ goog.provide('studash')
 goog.require('goog.net.XhrIo');
 goog.require('goog.json');
 goog.require('goog.events')
+
+goog.require('studash.Dashboard')
  
 /**
  * Actions principales du site.
@@ -31,7 +33,7 @@ studash.Actions = {
 studash.authenticate = function(credentials) {
 	goog.net.XhrIo.send(studash.Actions.Auth, function(e) {
 		var resp = e.target.getResponseJson();
-    if (resp.AuthResponse == true)  studash.enterDashboard();
+    if (resp.AuthResponse == true) studash.Dashboard.Create();
 		else {
 		
 		  var span = document.getElementById('errorStr');
@@ -41,11 +43,8 @@ studash.authenticate = function(credentials) {
       span.appendChild(document.createTextNode("Vos identifiants sont invalides."));
 		}
 		console.log(resp);
+	
   }, 'POST', credentials.serialize(), {'content-type':'application/json'}, 2000);
-}
-
-studash.enterDashboard = function(credentials) {
-  alert('Changement de page');
 }
 
 goog.events.listen(document.getElementById('Sync'), goog.events.EventType.CLICK, function(e) {

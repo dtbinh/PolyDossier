@@ -7,58 +7,242 @@
   <meta name="author" content="Maxime Lavigne">
   <meta name="author" content="Eliott Mahou">
 	<script async src="_"></script>
-	<link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAAwBQTFRFAAAAFxcXDik0NwgLGlRwWg0SUWkQZ2dnd3d3JG6Sb5AWfaIZMJjKNajgV5KvTK2vZbSAkxYeljITpxkivRwnqzYWl3YIrVAKp2QAtWwAjW5Hrk5Vyjkd5HQJirIclK5KlMAe2oMA8pEAmdPv3I2S686DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbDGNmQAAAQB0Uk5T////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AFP3ByUAAAAJcEhZcwAADsIAAA7CARUoSoAAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAATlJREFUOE+FkolOw0AMRMNZaAnQshzlCINL//8TjcfeJLvbSFiK5NjPEx/p9B/r6nyiVaEK8HSDlMCUL0UKoMgXRAMI7arso+rB07Tt3Gc9hQiANynHaMa0PHCzDKS0V+1plp+7nBVSEuRSyHbalgO5yAF5VoW4gocJjLIGiPZ8JPIkDADCTew+4fOg+m4Ag0AAwLnLsV5tBy9Rz8QImBvEvX4BrPeBA1hvhvD56O/x0TyXxbBZExj3q0nR747fA8ybgiPg9zFt9mUCtqnkTFZ4mu738Jq3xeNnQG0trO8hig/W79gxgz+xqHx/A/gZ3Kr4SAZcBKBnXNxlADQDnFjlVUfUFhNllHHArfkfovPSagB7AuPVTxXu8n6vC4lCocv3ycdd6MH/t7BZouphId9O0ZSfjllN6C9/OiScAYWmyBsAAAAASUVORK5CYII=" rel="icon" type="image/x-icon" />
-  <style type="text/css">
-body {
-    background: #eee
-}
+	<link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAMAUExURQAAADap4b4dKJXBH/OSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEHeqs8AAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAFdJREFUWEftlLERADEIw0xg/5mfHZTiLyf3dqETJDjFkrB+OVAyWIee8ABfY7MkrN8OtAzWIT24wgD/g2FJWH8cGBmsQ3rwCIPDkrD+ceDIYB3Sgz8w+AC7qSbj2SurEAAAAABJRU5ErkJggg==" rel="icon" type="image/x-icon" />
+	<style>
+	/*              ---     Main        ---            */
+	body {
+			background: #eee;
+	}
 
-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 35px;
-    background: #2d2d2d;
-    text-align: center;
-    box-shadow: 0 3px 5px #888
-}
+	h4 {
+		margin: 0 0;
+		padding: 0 0;
+	}
 
-#SiteName {
-    color: #ededed;
-    font-size: 1.7em;
-    font-family: Arial;
-    font-weight: bold
-}
+	header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 35px;
+			background: #2d2d2d;
+			box-shadow: 0 3px 5px #888;
+			z-index: 2;
+	}
 
-#Informations {
-    width: 1024px;
-    background: #fff;
-    border: 1px solid #bab;
-    color: #444;
-    font-size: 1.3em;
-    text-align: center;
-    font-family: Arial;
-    margin: 100px auto 0;
-    border-radius: 10px
-}
+	/*              ---     Navigation        ---            */
+	.navigation {
+	  background-size: 8%;
+		background-repeat: no-repeat;
+		background-position: center;
+		visibility:hidden;
+	}
+  .transcript {	background-image:url('img/transcript_bw.png'); visibility: visible;}
+	.transcript:hover {	background-image:url('img/transcript_color.png'); }
+  
+	.questions {	background-image:url('img/exchange_bw.png'); visibility: visible;}
+	.questions:hover {	background-image:url('img/exchange_color.png'); }
 
-#Informations h1 {
-    font-size: 3.2em
-}
+	.home {
+			color: #ededed;
+			font-size: 180%;
+			font-family: Arial;
+			font-weight: bold;
+			visibility: visible;
+	}
+	
+	.clubs {	background-image:url('img/comite_bw.png'); visibility: visible; }
+	.clubs:hover {	background-image:url('img/comite_color.png'); }
+  
+	.moodle {	background-image:url('img/moodle_bw.png'); visibility: visible; }
+	.moodle:hover {	background-image:url('img/moodle_color.png'); }
 
-#Informations p {
-    text-align: justify;
-    font-family: Trebuchet;
-    padding: 0 35px;
-    margin-bottom: 0;
-}
+		/*              ---     Content        ---            */
+	.centralContent {
+		width: 1024px;
+		margin: 60px auto 0;
+	}
 
-#Informations input {
-    text-align: center
-}
+	.stdbox {
+			width: 100%;
+			background: #fff;
+			border: 1px solid #bab;
+			color: #444;
+			text-align: center;
+			font-family: Arial;
+			border-radius: 10px
+	}
 
-#Sync {
+	.stdbox h1 {
+			font-size: 300%;
+	}
+
+	.stdbox p {
+			text-align: justify;
+			font-family: Trebuchet;
+			padding: 0 35px;
+			font-size: 130%;
+	}
+
+	.stdbox input {
+			text-align: center
+	}
+
+	.quicklinks {
+  	list-style-type: none;
+		width: 340px;
+		float: left;
+		min-height: 440px;
+		margin: 0 0;
+		padding: 20px 0;
+	}
+	
+  .quicklinks li {
+		margin: 45px 0;
+		padding: 10px 0;
+	}
+
+	.news {
+		width: 660px;
+		float: right;
+		min-height: 440px;
+		margin: 30px 0;
+	}
+
+	.news div {
+		margin: 190px auto;
+	}
+
+	.ads div {
+		margin: 70px auto;
+	}
+
+	.ads {
+		float: left;
+		min-height: 200px;
+	}
+
+	#Sync {
+			background: #eee;
+			border: 1px solid #bab;
+			width: 180px;
+			height: 70px;
+			font-size: 2em;
+			color: #555;
+			font-weight: bold;
+			cursor: pointer;
+			transition: box-shadow 300ms;
+			-moz-transition: box-shadow 300ms;
+			-webkit-transition: box-shadow 300ms;
+			-o-transition: box-shadow 300ms;
+			margin: 20px 0 5px 0;
+			border-radius: 5px
+	}
+
+	#Sync:hover {
+			color: #111;
+			border: 1px solid #bab;
+			box-shadow: 0 0 3px #888
+	}
+
+	#Informations div {
+			width: 100%;
+			height: 35px;
+			text-align: center;
+			box-shadow: 0 3px 5px #888;
+			color: #888;
+			background-image: linear-gradient(bottom, rgb(136,136,136) 0%, rgb(68,68,68) 69%);
+	}
+
+	#errorStr {
+			display: inline-block;
+			color: #771111;
+	}
+
+	.avatar {
+		float: left;
+		clear: left;
+		padding-left: 50px;
+	}
+
+	.avatar img {
+		width:  150px;
+		height: 150px;
+		padding: 15px 15px 0 15px;
+	}
+
+	.avatar span {
+		font-size: 180%;
+	}
+	.name {
+		font-size: 300%;
+		width: 100%;
+	}
+	.userDesc {
+		font-size: 160%;
+		margin-bottom: 40px;
+		padding-top: 40px;
+	}
+	.userDesc button {
+		margin: 0 30px;
+		padding: 5px 15px;
+	}
+
+	nav div {
+		width: 20%;
+		float: left;
+		text-align: center;
+		padding-bottom: 10px;
+			cursor: pointer;
+	}
+
+	footer {
+		position:fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+	}
+
+	footer div {
+		width: 24%;
+		float: left;
+		text-align: center;
+		color: #222;
+		font-size: 200%;
+		font-weight: bold;
+		margin: 0 4.5%;
+		border-radius: 40px 40px 0 0;
+		z-index: 2;
+		box-shadow: 0 0 10px 2px #333;
+		cursor: pointer;
+	}
+
+	#footerTask { background-image: -webkit-linear-gradient(bottom, rgb(150,80,80) 0%, rgb(250,180,180) 80%); }
+	#footerCalendar { background-image: -webkit-linear-gradient(bottom, rgb(80,150,80) 0%, rgb(180,250,180) 80%); }
+	#footerHangout { background-image: -webkit-linear-gradient(bottom, rgb(80,80,150) 0%, rgb(180,180,250) 80%); }
+
+	#footerTask:hover { background-image: -webkit-linear-gradient(bottom, rgb(150,20,20) 0%, rgb(250,130,130) 80%); }
+	#footerCalendar:hover { background-image: -webkit-linear-gradient(bottom, rgb(20,150,20) 0%, rgb(130,250,130) 80%); }
+	#footerHangout:hover { background-image: -webkit-linear-gradient(bottom, rgb(20,20,150) 0%, rgb(130,130,250) 80%); }
+
+	.navArrow {
+		position: fixed;
+		height: 100%;
+		width: 45px;
+		top: 0px;
+		z-index: 1;
+		text-align: center;
+		border: 0px;
+		font-size: 200%;
+		color: #aaa;
+		font-family: 'Segoe UI', Tahoma, sans-serif;
+			cursor: pointer;
+	}
+	.navArrow:hover { background-color: #ddd; }
+	#leftNav { left: 0px; }
+	#rightNav { right: 0px; }
+	
+	#Sync {
     background: #eee;
     border: 1px solid #bab;
     width: 180px;
@@ -81,44 +265,48 @@ header {
     box-shadow: 0 0 3px #888
 }
 
-#Informations div {
-    width: 100%;
-    height: 35px;
-    text-align: center;
-    box-shadow: 0 3px 5px #888;
-    color: #888;
-    background-image: linear-gradient(bottom, rgb(136,136,136) 0%, rgb(68,68,68) 69%);
-}
-
 #errorStr {
     display: inline-block;
     color: #771111;
 }
-  </style>
+	</style>
 </head>
 <body>
-  <header><span id="SiteName">PolyDossier</span></header>
-  <div id="Informations">
-    <h1>Bienvenue dans PolyDossier</h1>
-    <p>
-      Le dossier étudiant est une initiative étudiante créé par les étudiants et pour
-      les étudiants dans le but de facilité l'access aux services offerts par l'école
-      Polytechnique de Montréal. Nous nous sommes donné comme mandat d'offrir au
-      élèves une solution plus <b>intuitive</b>, <b>rapide</b> et <b>sécuritaire</b>. Parmis les
-      fonctionnalitées intéressantes sont une mise en cache des informations permettant
-      leurs consultation même lorsque les serveurs de Polytechnique ne sont pas
-      accessibles.
-    </p>
-		<span id="errorStr"></span>
-    <form action="/auth"> 
-      Nom usager : 
-        <input name="username" type="text" placeholder="malavv" required="required" />
-      Mot de passe :
-        <input name="password" type="password" required="required" />
-      Date de naissance :
-        <input name="dateOfBirth" type="text" placeholder="AAMMJJ" required="required" />
-        <input id="Sync" type="button" value="Sync" />
-    </form>
-  </div>
+  <header>
+	  <nav>
+		  <div class="navigation" href="/u/1437974/notes"     onclick="return false;">&nbsp;</div>
+			<div class="navigation"  href="/u/1437974/questions" onclick="return false;">&nbsp;</div>
+			<div class="navigation home"       href="/u/1437974"           onclick="return false;">PolyDossier</div>
+			<div class="navigation"      href="/c"                   onclick="return false;">&nbsp;</div>
+			<div class="navigation"     href="/m"                   onclick="return false;">&nbsp;</div>
+		</nav>
+	</header>
+	
+		<div class="centralContent">
+	
+	  <!-- User area -->
+		<div class="stdbox">
+			<h1>Bienvenue dans PolyDossier</h1>
+			<p>
+				Le dossier étudiant est une initiative étudiante créé par les étudiants et pour
+				les étudiants dans le but de facilité l'access aux services offerts par l'école
+				Polytechnique de Montréal. Nous nous sommes donné comme mandat d'offrir au
+				élèves une solution plus <b>intuitive</b>, <b>rapide</b> et <b>sécuritaire</b>. Parmis les
+				fonctionnalitées intéressantes sont une mise en cache des informations permettant
+				leurs consultation même lorsque les serveurs de Polytechnique ne sont pas
+				accessibles.
+			</p>
+			<span id="errorStr"></span>
+			<form action="/auth"> 
+				Nom usager : 
+					<input name="username" type="text" placeholder="malavv" required="required" />
+				Mot de passe :
+					<input name="password" type="password" required="required" />
+				Date de naissance :
+					<input name="dateOfBirth" type="text" placeholder="AAMMJJ" required="required" /><br />
+					<input id="Sync" type="button" value="Sync" />
+			</form>
+		</div>
+	</div>
 </body>
 </html>
