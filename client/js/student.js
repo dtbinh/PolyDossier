@@ -7,6 +7,8 @@ goog.provide('studash.Student')
 goog.require('goog.json');
 goog.require('goog.net.XhrIo');
 
+studash.Student.matricule = -1;
+
 /**
  * Donnés de connection de l'utilisateur.
  * @param {string=} opt_username Le nom d'utilisateur. (optional)
@@ -53,8 +55,11 @@ studash.Student.Credentials.prototype.tryAuth =  function(onSuccess, onFailure) 
 	goog.net.XhrIo.send(
 	  studash.pages.auth,
 		function(e) {
-	    if (e.target.getResponseJson().AuthResponse) onSuccess();
-		  else onFailure();	
+			var json = e.target.getResponseJson();
+	    if (json.AuthResponse) {
+			  studash.Student.matricule = json.Matricule;
+				onSuccess();
+			} else onFailure();	
     },
 		'POST', this.serialize(), {'content-type':'application/json'}, 2000
 	);

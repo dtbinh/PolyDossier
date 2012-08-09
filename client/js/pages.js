@@ -72,7 +72,7 @@ studash.Dashboard.createAvatar =  function() {
 	
 	avatar.className = 'avatar';
 	img.src = 'img/avatar.png';
-	span.innerHTML = '1437974';
+	span.innerHTML = studash.Student.matricule;
 	
 	avatar.appendChild(img);
 	avatar.appendChild(goog.dom.createElement('br'));
