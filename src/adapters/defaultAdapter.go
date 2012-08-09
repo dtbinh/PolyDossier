@@ -1,7 +1,7 @@
 package adapters
 
 import (
-	"log"
+	//"log"
 	"net/http"
 	"studash/errors"
 	"studash/tools"

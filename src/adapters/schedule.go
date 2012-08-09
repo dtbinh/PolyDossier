@@ -13,6 +13,6 @@ type ScheduleBuilder struct {
 
 // Fonction GetParser de l'objet ScheduleBuilder
 func (s ScheduleBuilder) GetParser() *tools.HTMLParser {
-	s.parser = &tools.HTMLParser{"Schedule", nil}
+	s.parser = &tools.HTMLParser{"Schedule", nil, nil}
 	return s.parser
 }
