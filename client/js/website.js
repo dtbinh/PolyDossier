@@ -53,6 +53,8 @@ goog.events.listen(document.getElementById('Sync'), goog.events.EventType.CLICK,
   studash.authenticate(credentials);
 });
 
+
+
 goog.exportSymbol('studash.Actions', studash.Actions)
 goog.exportSymbol('studash.authenticate', studash.authenticate)
 
