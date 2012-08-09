@@ -9,6 +9,8 @@ goog.require('goog.events');
 goog.require('goog.dom');
 goog.require('goog.dom.classes');
 
+goog.require('studash.fx');
+
  
 /**
  * Fonction construisant le dashboard.
@@ -16,15 +18,30 @@ goog.require('goog.dom.classes');
 studash.Dashboard.Create =  function() {
 	studash.Dashboard.correctMenu(goog.dom.getElementsByClass('navigation'));
 	
+	// Modify central page content
 	var central = goog.dom.createDom('div', {'class' : 'centralContent'});
 	studash.Dashboard.createUserArea(central);
 	studash.Dashboard.createActions(central);
 	studash.Dashboard.createNews(central);
 	studash.Dashboard.createAds(central);
 	studash.Dashboard.createArrows(central);
-	studash.Dashboard.createFooter(central);
-	
 	goog.dom.replaceNode(central, goog.dom.getElementByClass('centralContent'));
+	
+	// Add footer and calendar
+  studash.Dashboard.createFooter(document.body);
+	studash.Dashboard.createCalendar(document.body);
+	
+	// Register listener
+	goog.events.listen(document.getElementById('footerCalendar'), goog.events.EventType.CLICK, function(e) {
+		studash.fx.Fade(
+		  goog.dom.getElementByClass('centralContent'),
+			studash.fx.FADE_IN, studash.fx.FADE_OUT, .6
+	  );
+		studash.fx.Fade(
+		  goog.dom.getLastElementChild(document.body),
+			studash.fx.NEARLY_FADE_OUT, studash.fx.FADE_IN, 1
+	  );
+	});
 };
 
 /**
@@ -155,6 +172,22 @@ studash.Dashboard.createFooter =  function(central) {
 			goog.dom.createDom('div', {'id' : 'footerCalendar'}, goog.dom.createTextNode('Calendar')),
 			goog.dom.createDom('div', {'id' : 'footerHangout'}, goog.dom.createTextNode('Hangout'))
 		)
+	);
+};
+
+/**
+ * Create calendar
+ */
+studash.Dashboard.createCalendar =  function(central) {			
+  var data = {
+	  'style' : 'border-width:0',
+		'frameborder' : '0',
+		'scrolling' : 'no',
+		'src' : 'https://www.google.com/calendar/embed?showTitle=0&showTz=0&height=768&wkst=1&bgcolor=%23FFFFFF&src=duguigne%40gmail.com&color=%230D7813&ctz=America%2FMontreal'
+	}
+				
+  central.appendChild(
+	  goog.dom.createDom('iframe',	data)
 	);
 };
 
