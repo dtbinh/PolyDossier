@@ -1,19 +1,12 @@
 /**
  * @fileoverview Outils important ayant lien au concept d'utilisateur.
  *
- * Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
- * the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
- * of type and scrambled it to make a type specimen book. It has survived not only five centuries,
- * but also the leap into electronic typesetting, remaining essentially unchanged. It was
- * popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
- * and more recently with desktop publishing software like Aldus PageMaker including versions
- * of Lorem Ipsum.
  */
 goog.provide('studash.Student')
-goog.provide('studash.Student.Credentials')
 	
 goog.require('goog.json');
- 
+goog.require('goog.net.XhrIo');
+
 /**
  * Donnés de connection de l'utilisateur.
  * @param {string=} opt_username Le nom d'utilisateur. (optional)
@@ -40,25 +33,30 @@ studash.Student.Credentials = function(opt_username, opt_password, opt_dateOfBir
 };
 
 /**
- * Fonction sérialisant les credentials.
+ * Fonction sérialisant les credentials en json.
  * @return {string} Serialized Json Object.
  */
 studash.Student.Credentials.prototype.serialize =  function() {
-  return goog.json.serialize({ 'username': this.Username, 'password': this.Password, 'dateOfBirth': this.DateOfBirth})
+  return goog.json.serialize({ 'username': this.Username,
+      'password': this.Password, 'dateOfBirth': this.DateOfBirth})
 };
 
-goog.exportSymbol('studash.Student.Credentials', studash.Student.Credentials)
-goog.exportSymbol('studash.Student.Credentials.serialize', studash.Student.Credentials.serialize)
-
- // var Student = {
-   // name        : "John Doe",
-	 // username    : "malesd",
-	 // password    : "rr11ee22",
-	 // dateOfBirth : "890822",
-	 // Credentials : function() { return { code : this.username, nip : this.password, naissance : this.dateOfBirth }},
-	 // Uri         : function() { return "/u/" + this.username; },
-	 // TryAuth     : function() {
-	   // $.post("/auth", this.Credentials()).success(function(data) { console.log(data); });
-	 // }
- // }
+/**
+ * Fonction qui test l'auhtentifiation.
+ */
+studash.Student.Credentials.prototype.tryAuth =  function(onSuccess, onFailure) {
+  if (!this.Username || !this.Password || !this.DateOfBirth) {
+    onFailure();
+	  return;
+	}
+	
+	goog.net.XhrIo.send(
+	  studash.pages.auth,
+		function(e) {
+	    if (e.target.getResponseJson().AuthResponse) onSuccess();
+		  else onFailure();	
+    },
+		'POST', this.serialize(), {'content-type':'application/json'}, 2000
+	);
+};
  

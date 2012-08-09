@@ -252,7 +252,7 @@
 	#leftNav { left: 0px; }
 	#rightNav { right: 0px; }
 	
-	#Sync {
+	.btnLogin {
     background: #eee;
     border: 1px solid #bab;
     width: 180px;
@@ -269,13 +269,13 @@
     border-radius: 5px
 }
 
-#Sync:hover {
+.btnLogin:hover {
     color: #111;
     border: 1px solid #bab;
     box-shadow: 0 0 3px #888
 }
 
-#errorStr {
+.errorStr {
     display: inline-block;
     color: #771111;
 }
@@ -306,7 +306,7 @@
 				leurs consultation même lorsque les serveurs de Polytechnique ne sont pas
 				accessibles.
 			</p>
-			<span id="errorStr"></span>
+			<span class="errorStr"></span>
 			<form action="/auth"> 
 				Nom usager : 
 					<input name="username" type="text" placeholder="malavv" required="required" />
@@ -314,7 +314,7 @@
 					<input name="password" type="password" required="required" />
 				Date de naissance :
 					<input name="dateOfBirth" type="text" placeholder="AAMMJJ" required="required" /><br />
-					<input id="Sync" type="button" value="Sync" />
+					<input class="btnLogin" type="button" value="Sync" />
 			</form>
 		</div>
 	</div>

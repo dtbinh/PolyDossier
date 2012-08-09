@@ -1,5 +1,8 @@
 /**
- * @fileoverview Utilitaire permettant de faire le passage dynamic de page.
+ * @fileoverview Utilitaire faisant la gestion de la page centrale.
+ *
+ * Ce fichier est surtout utilisé de façon à passer dans le dashboard
+ * à partir de la page de Login.
  */
 goog.provide('studash.Dashboard')
  
