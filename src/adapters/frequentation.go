@@ -13,6 +13,6 @@ type FrequentationBuilder struct {
 
 // Fonction GetParser de l'objet FrequantationBuilder
 func (f FrequentationBuilder) GetParser() *tools.HTMLParser {
-	f.parser = &tools.HTMLParser{"Frequentaion", nil}
+	f.parser = &tools.HTMLParser{"Frequentaion", nil, nil}
 	return f.parser
 }

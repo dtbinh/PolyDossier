@@ -13,6 +13,6 @@ type FinanceBuilder struct {
 
 // Fonction GetParser de l'objet FinanceBuilder
 func (f FinanceBuilder) GetParser() *tools.HTMLParser {
-	f.parser = &tools.HTMLParser{"Finance", nil}
+	f.parser = &tools.HTMLParser{"Finance", nil, nil}
 	return f.parser
 }

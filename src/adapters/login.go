@@ -23,6 +23,8 @@ type LoginBuilder struct {
 
 // Fonction GetParser de l'objet LoginBuilder
 func (l LoginBuilder) GetParser(r io.Reader) *tools.HTMLParser {
-	l.parser = &tools.HTMLParser{"Login", r}
+	if(l.parser == nil) {
+		l.parser = &tools.HTMLParser{"Login", r, nil}
+	}
 	return l.parser
 }

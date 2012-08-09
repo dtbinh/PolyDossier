@@ -40,7 +40,11 @@ func main() {
 
 	log.Println("[INFO] : Démarrage Serveur")
 	http.HandleFunc("/", onHandleRequest)
-	http.ListenAndServe(":http", nil)
+	err := http.ListenAndServe("127.0.0.1:http", nil)
 
+    if err != nil { 
+      log.Println(err)
+      panic(err)
+    }
 	tools.ExitSuccess()
 }

@@ -4,6 +4,8 @@ import (
 	"exp/html"
 	"fmt"
 	"io"
+	"log"
+	"strings"
 
 // "studash/adapters"
 // "io/ioutil"
@@ -16,9 +18,12 @@ type HTMLParameter struct {
 	Value string
 }
 
+type NodeList []*html.Node
+
 type HTMLParser struct {
 	Msg string
 	Data io.Reader
+	HTMLNodes []html.Node
 }
 
 func (p *HTMLParser) Print() {
@@ -34,70 +39,85 @@ func (p *HTMLParser) Print() {
 // 
 //  return : the value of the wanted parameter
 ////
-func (p *HTMLParser) GetValue(wanted , tag string, champs ...HTMLParameter) interface{} {
+func (p *HTMLParser) GetValue(tag string, feilds ...HTMLParameter) []html.Node {
 	aNode, errors := html.Parse(p.Data)
+	
 	if errors != nil {
-		fmt.Println("Error :", errors)
+		log.Println("ERROR : error while parsing web page")
 		return nil
 	}
 	
 	// recursive search
-	result := printNodeContent(aNode, wanted, tag, champs)
-	fmt.Println("Result :", result)
+	p.GetNodes(aNode, tag, feilds)
 	
-	return nil
+	return p.HTMLNodes
 }
 
-// function de test
-func printNodeContent(aNode *html.Node, wanted string, tag string, champs []HTMLParameter) string {
+func (p *HTMLParser) GetNodes(aNode *html.Node, tag string, feilds []HTMLParameter) {
 	
-	// if the tag has no child it means it's a leaf
-	// and we want to check what's inside
-	if aNode.Child == nil {
-		if (*aNode).Data == tag {
-			x := ""
-			legit := true
+	// check for the tag we specified
+	if (*aNode).Data == tag || tag == ""{
+		legit := true
+		
+		// We get threw all attributes of the tag
+		for _, attr := range (*aNode).Attr {
 			
-			// We get threw all attributes of the tag
-			for _, attr := range (*aNode).Attr {
-				if attr.Key == wanted {
-					x = attr.Val
-				}
-				
-				// look if the tag meets all the requirements
-				for _, champ := range champs {
-					// if one of the attributes doesn't have the goo value
-					// then the node isn't interesting anymore
-					if champ.Name == attr.Key && champ.Value != attr.Val {
-						legit = false
-						break
-					}
-				}
-				if !legit {
+			// look if the tag meets all the requirements
+			for _, feild := range feilds {
+				// if one of the attributes doesn't have the good value
+				// then the node isn't interesting anymore
+				if feild.Name == attr.Key && (feild.Value != attr.Val || feild.Value != "") {
+					legit = false
 					break
 				}
 			}
+			if !legit {
+				break
+			}
+		}
+		// if the node is legit we append it to the list
+		if legit {
+			p.HTMLNodes = append(p.HTMLNodes, *aNode)
+		}
+	}
+	//
+	for _, nodey := range (*aNode).Child {
+		p.GetNodes(nodey, tag, feilds)
+	}
+}
+
+func FineSearch( aNode html.Node, wanted string, tag string, feilds ...HTMLParameter) (bool, string){
+	legit := true
+	value := ""
+	
+	if aNode.Data == tag || tag == ""{
+		
+		// We get threw all attributes of the tag
+		for _, attr := range aNode.Attr {
 			
-			// if the tag is legit and we found a value
-			// we must stop the search and return the result
-			if legit && x != "" {
-				return x
+			// look if the tag meets all the requirements
+			for _, feild := range feilds {
+				if attr.Key == wanted {
+					value = attr.Val
+				}
+				// if one of the attributes doesn't have the good value
+				// then the node isn't interesting anymore
+				// (!strings.Contains(attr.Val, feild.Value))
+				if (feild.Name == attr.Key) && (!strings.Contains(attr.Val, feild.Value)) {
+					legit = false
+					break
+				} 
+			}
+			if !legit {
+				value = ""
+				break
 			}
 		}
 	} else {
-		// we get here only if the tag has childrens
-		for _, nodey := range (*aNode).Child {
-			result := printNodeContent(nodey, wanted, tag, champs)
-			// we don't neet to continue the search if we found
-			// what we are looking for
-			if result != "" {
-				return result
-			}
-		}
+		legit = false
 	}
-		
-	// if we found nothing... well, we return nothing :O
-	return ""
+	
+	return legit, value
 }
 
 func WeirdJSON() []byte {

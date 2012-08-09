@@ -11,8 +11,8 @@ import (
 	"os"
 	"strings"
 	"studash/errors"
-	//"studash/adapters"
-	//"studash/tools"
+	"studash/adapters"
+	"studash/tools"
 	//"studash/student"
 	"io"
 	"time"
@@ -135,22 +135,31 @@ func Authenticate(r *http.Request) []byte {
 	}
 
 	defer resp.Body.Close()
+	
+	loginParser := adapters.LoginBuilder{}.GetParser(resp.Body)
+	nodes := loginParser.GetValue("input")
+	var matricule, token string
+	for _, node := range nodes {
+		b1, v1 := tools.FineSearch(node, "value", "", tools.HTMLParameter{"name", "matricule"})
+		b2, v2 := tools.FineSearch(node, "value", "", tools.HTMLParameter{"name", "token"})
+		
+		if b1 {
+			matricule = v1
+		}
+		if b2 {
+			token = v2
+		}
+	}
 
-	//fmt.Println(resp.Body)
-	if IsReaderAtLeast(resp.Body, 2000) {
-		return []byte(`{"AuthResponse" : true}`)
+	if token != "" {
+		json := fmt.Sprintf(`{"AuthResponse" : true, "Matricule" : %s, "Token" : %s}`,matricule , token)
+		return []byte(json)
 	}
 	return []byte(`{"AuthResponse" : false}`)
 }
 
 func IsReaderAtLeast(r io.Reader, size int) bool {
 	tmp := make([]byte, size)
-	
-	// test //
-	//login := adapters.LoginBuilder{}
-	//login.GetParser(r).GetValue("value","input", tools.HTMLParameter{"name", "token"})
-	//login.GetParser(r).GetValue("value","input", tools.HTMLParameter{"name", "matricule"})
-	//////////
 	
 	_, err := io.ReadAtLeast(r, tmp, size)
 	if err == io.ErrUnexpectedEOF {
