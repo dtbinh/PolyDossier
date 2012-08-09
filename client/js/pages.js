@@ -10,6 +10,7 @@ goog.require('goog.dom');
 goog.require('goog.dom.classes');
 
 goog.require('studash.fx');
+goog.require('studash.footer');
 
  
 /**
@@ -32,16 +33,7 @@ studash.Dashboard.Create =  function() {
 	studash.Dashboard.createCalendar(document.body);
 	
 	// Register listener
-	goog.events.listen(document.getElementById('footerCalendar'), goog.events.EventType.CLICK, function(e) {
-		studash.fx.Fade(
-		  goog.dom.getElementByClass('centralContent'),
-			studash.fx.FADE_IN, studash.fx.FADE_OUT, .6
-	  );
-		studash.fx.Fade(
-		  goog.dom.getLastElementChild(document.body),
-			studash.fx.NEARLY_FADE_OUT, studash.fx.FADE_IN, 1
-	  );
-	});
+	studash.footer.Register();
 };
 
 /**
@@ -166,13 +158,7 @@ studash.Dashboard.createAds =  function(central) {
  * Create footer
  */
 studash.Dashboard.createFooter =  function(central) {
-  central.appendChild(
-	  goog.dom.createDom('footer', null,
-		  goog.dom.createDom('div', {'id' : 'footerTask'}, goog.dom.createTextNode('Task')),
-			goog.dom.createDom('div', {'id' : 'footerCalendar'}, goog.dom.createTextNode('Calendar')),
-			goog.dom.createDom('div', {'id' : 'footerHangout'}, goog.dom.createTextNode('Hangout'))
-		)
-	);
+  central.appendChild(studash.footer.Make());
 };
 
 /**
