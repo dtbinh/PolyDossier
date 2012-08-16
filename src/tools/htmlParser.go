@@ -116,7 +116,6 @@ func FineSearch( aNode html.Node, wanted string, tag string, feilds ...HTMLParam
 	} else {
 		legit = false
 	}
-	
 	return legit, value
 }
 
