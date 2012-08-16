@@ -2,17 +2,16 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
 	"strings"
 	"studash/adapters"
 	"studash/errors"
+	"studash/student"
 	"time"
 )
 
@@ -103,38 +102,10 @@ func GetFileData(filename string) []byte {
 }
 
 func Authenticate(r *http.Request) []byte {
-	postUrl := PolyHostName + "/servlet/ValidationServlet"
-
-	defer r.Body.Close()
-	jsonForm, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		log.Print("[ERROR] : Json Form ReadAll", err)
-	}
-
-	var formValues map[string]string
-	err = json.Unmarshal(jsonForm, &formValues)
-	if err != nil {
-		log.Print("[ERROR] : Json Form UnMarshall", err)
-	}
-
-	formz := url.Values{}
-	for key, value := range formValues {
-		switch key {
-		case "username":
-			formz.Add("code", value)
-		case "password":
-			formz.Add("nip", value)
-		case "dateOfBirth":
-			formz.Add("naissance", value)
-		}
-	}
-
-	resp, err := http.PostForm(postUrl, formz)
-
+	resp, err := http.PostForm(PolyHostName+"/servlet/ValidationServlet", student.BuildCredentials(r).UrlForm())
 	if err != nil {
 		log.Print("[ERROR] : Sending Auth to poly", err)
 	}
-
 	defer resp.Body.Close()
 
 	loginBuilder := adapters.LoginBuilder{}

@@ -34,7 +34,7 @@ func main() {
 	// test the ADAPTORS
 	//ab := []adapters.AdapterBuilder{adapters.InformationBuilder{}, adapters.ReportBuilder{}, adapters.ScheduleBuilder{}, adapters.InternshipBuilder{}, adapters.FrequentationBuilder{}, adapters.FinanceBuilder{}}
 	//for _, adapter := range ab {
-		//ab[0].GetParser().GetValue("", "", tools.HTMLParameter{})
+	//ab[0].GetParser().GetValue("", "", tools.HTMLParameter{})
 	//}
 	// end of test
 
@@ -42,9 +42,9 @@ func main() {
 	http.HandleFunc("/", onHandleRequest)
 	err := http.ListenAndServe("127.0.0.1:http", nil)
 
-    if err != nil { 
-      log.Println(err)
-      panic(err)
-    }
+	if err != nil {
+		log.Println(err)
+		panic(err)
+	}
 	tools.ExitSuccess()
 }

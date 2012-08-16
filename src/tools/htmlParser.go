@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"strings"
 
 // "studash/adapters"
 // "io/ioutil"
@@ -14,15 +13,14 @@ import (
 )
 
 type HTMLParameter struct {
-	Name string
-	Value string
+	Name, Value string
 }
 
 type NodeList []*html.Node
 
 type HTMLParser struct {
-	Msg string
-	Data io.Reader
+	Msg       string
+	Data      io.Reader
 	HTMLNodes []html.Node
 }
 
@@ -41,27 +39,27 @@ func (p *HTMLParser) Print() {
 ////
 func (p *HTMLParser) GetValue(tag string, feilds ...HTMLParameter) []html.Node {
 	aNode, errors := html.Parse(p.Data)
-	
+
 	if errors != nil {
 		log.Println("ERROR : error while parsing web page")
 		return nil
 	}
-	
+
 	// recursive search
 	p.GetNodes(aNode, tag, feilds)
-	
+
 	return p.HTMLNodes
 }
 
 func (p *HTMLParser) GetNodes(aNode *html.Node, tag string, feilds []HTMLParameter) {
-	
+
 	// check for the tag we specified
-	if (*aNode).Data == tag || tag == ""{
+	if (*aNode).Data == tag || tag == "" {
 		legit := true
-		
+
 		// We get threw all attributes of the tag
 		for _, attr := range (*aNode).Attr {
-			
+
 			// look if the tag meets all the requirements
 			for _, feild := range feilds {
 				// if one of the attributes doesn't have the good value
@@ -86,40 +84,33 @@ func (p *HTMLParser) GetNodes(aNode *html.Node, tag string, feilds []HTMLParamet
 	}
 }
 
-func FineSearch( aNode html.Node, wanted string, tag string, feilds ...HTMLParameter) (bool, string){
-	legit := true
-	value := ""
-	
-	if aNode.Data == tag || tag == ""{
-		
-		// We get threw all attributes of the tag
-		for _, attr := range aNode.Attr {
-			
-			// look if the tag meets all the requirements
-			for _, feild := range feilds {
-				if attr.Key == wanted {
-					value = attr.Val
-				}
-				// if one of the attributes doesn't have the good value
-				// then the node isn't interesting anymore
-				// (!strings.Contains(attr.Val, feild.Value))
-				if (feild.Name == attr.Key) && (!strings.Contains(attr.Val, feild.Value)) {
-					legit = false
-					break
-				} 
-			}
-			if !legit {
-				value = ""
-				break
-			}
+type AttributeSet []html.Attribute
+
+func (a AttributeSet) Contains(rhs html.Attribute) bool {
+	for _, attribute := range a {
+		if attribute.Namespace == rhs.Namespace &&
+			attribute.Key == rhs.Key &&
+			attribute.Val == rhs.Val {
+			return true
 		}
-	} else {
-		legit = false
 	}
-	return legit, value
+	return false
 }
 
-func WeirdJSON() []byte {
-	return []byte("{name:lolsaure}")
-	// return pages.KAR
+func (a AttributeSet) Key(key string) AttributeSet {
+	var buffer AttributeSet
+
+	for _, attribute := range a {
+		if attribute.Key == key {
+			buffer = append(buffer, attribute)
+		}
+	}
+	return buffer
+}
+
+func (a AttributeSet) First() html.Attribute {
+	if len(a) == 0 {
+		return html.Attribute{"undefined", "undefined", "undefined"}
+	}
+	return a[0]
 }

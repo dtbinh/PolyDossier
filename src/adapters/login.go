@@ -1,8 +1,9 @@
 package adapters
 
 import (
-	"studash/tools"
+	"exp/html"
 	"io"
+	"studash/tools"
 )
 
 // func (*DefaultAdapter) Run (r *http.Request) {
@@ -23,27 +24,28 @@ type LoginBuilder struct {
 
 // Fonction GetParser de l'objet LoginBuilder
 func (l *LoginBuilder) SetParser(r io.Reader) {
-	if(l.parser == nil) {
+	if l.parser == nil {
 		l.parser = &tools.HTMLParser{"Login", r, nil}
 	}
 }
 
-func (l *LoginBuilder) GetMatriculeToken(r io.Reader) (string,string) {
+func (l *LoginBuilder) GetMatriculeToken(r io.Reader) (string, string) {
 	l.SetParser(r)
 	nodes := l.parser.GetValue("input")
 	var matricule, token string
 	for _, node := range nodes {
-		b1, v1 := tools.FineSearch(node, "value", "", tools.HTMLParameter{"name", "matricule"})
-		b2, v2 := tools.FineSearch(node, "value", "", tools.HTMLParameter{"name", "token"})
-		
-		if b1 {
-			matricule = v1
+
+		// Si on a les deux
+		if len(matricule) > 0 && len(token) > 0 {
+			return matricule, token
 		}
-		if b2 {
-			token = v2
+
+		if len(matricule) == 0 && tools.AttributeSet(node.Attr).Contains(html.Attribute{"", "name", "matricule"}) {
+			matricule = tools.AttributeSet(node.Attr).Key("value").First().Val
 		}
-		if b1 && b2 {
-			break
+
+		if len(token) == 0 && tools.AttributeSet(node.Attr).Contains(html.Attribute{"", "name", "token"}) {
+			token = tools.AttributeSet(node.Attr).Key("value").First().Val
 		}
 	}
 	return matricule, token
