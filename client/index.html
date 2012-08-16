@@ -90,7 +90,11 @@
 			color: #444;
 			text-align: center;
 			font-family: Arial;
-			border-radius: 10px
+			border-radius: 10px 10px 10px 10px
+	}
+	
+	.flat {
+		border-radius: 10px 10px 0px 0px
 	}
 
 	.stdbox h1 {
@@ -289,6 +293,12 @@
     display: inline-block;
     color: #771111;
 }
+
+.throbber {
+  margin-top: -5px;
+	visibility:hidden;
+}
+
 	</style>
 </head>
 <body>
@@ -305,7 +315,7 @@
 		<div class="centralContent">
 	
 	  <!-- User area -->
-		<div class="stdbox">
+		<div class="stdbox flat">
 			<h1>Bienvenue dans PolyDossier</h1>
 			<p>
 				Le dossier étudiant est une initiative étudiante créé par les étudiants et pour
@@ -317,6 +327,8 @@
 				accessibles.
 			</p>
 			<span class="errorStr"></span>
+			<img class="throbber" src="b.gif"/>
+
 			<form action="/auth"> 
 				Nom usager : 
 					<input name="username" type="text" placeholder="malavv" required="required" />

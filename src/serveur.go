@@ -54,6 +54,10 @@ func doStaticPages(action string, w http.ResponseWriter, r *http.Request) bool {
 		w.Header().Set("Content-Type", "image/png")
 		filename = "i.png"
 		break
+	case "b.gif":
+		w.Header().Set("Content-Type", "image/gif")
+		filename = "b.gif"
+		break
 	default:
 		return false
 		break
