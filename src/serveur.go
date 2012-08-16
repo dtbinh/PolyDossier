@@ -10,14 +10,15 @@ import (
 	"net/url"
 	"os"
 	"strings"
-	"studash/errors"
 	"studash/adapters"
+	"studash/errors"
 	"studash/tools"
 	//"studash/student"
 	"io"
 	"time"
 )
 
+// On time le temps de traitement des requêtes.
 func onHandleRequest(w http.ResponseWriter, r *http.Request) {
 	start := time.Now()
 	doHandleRequest(w, r)
@@ -27,17 +28,8 @@ func onHandleRequest(w http.ResponseWriter, r *http.Request) {
 func doHandleRequest(w http.ResponseWriter, r *http.Request) {
 	ctx := strings.Split(r.URL.Path, "/")
 
-	// Page root 
-	// Note : Étant donné que le premier charactere est un slash, il donne vide en 0.
-	if ctx[1] == "" {
-		w.Write(DefaultPage())
-		return
-	}
-
-	// Le JS compiler par Closure
-	if ctx[1] == "_" {
-		w.Header().Set("Content-Type", "application/javascript")
-		w.Write(DefaultScript())
+	// Si l'utilisateur demande une page sans processing 
+	if doStaticPages(ctx[1], w, r) {
 		return
 	}
 
@@ -46,8 +38,30 @@ func doHandleRequest(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("[ERROR]", err)
 	}
-	
+
 	w.Write(data)
+}
+
+func doStaticPages(action string, w http.ResponseWriter, r *http.Request) bool {
+	var filename string
+	switch action {
+	case "":
+		filename = "index.html"
+		break
+	case "_":
+		filename = "_"
+		w.Header().Set("Content-Type", "application/javascript")
+		break
+	case "i.png":
+		w.Header().Set("Content-Type", "image/png")
+		filename = "i.png"
+		break
+	default:
+		return false
+		break
+	}
+	w.Write(GetFileData(*dir + filename))
+	return true
 }
 
 func do(r *http.Request, ctx []string) ([]byte, error) {
@@ -71,31 +85,16 @@ func do(r *http.Request, ctx []string) ([]byte, error) {
 func PullCredentials(r *http.Request) {
 }
 
-func DefaultPage() []byte {
-	file, err := os.Open(*dir + "index.html")
+func GetFileData(filename string) []byte {
+	file, err := os.Open(filename)
 	defer file.Close()
 	if err != nil {
-		log.Print("[ERROR] : Def Pag Open", err)
+		log.Print("[ERROR] : GetFileData Open", err)
 	}
 
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
-		log.Print("[ERROR] : Def Pag Read", err)
-	}
-
-	return data
-}
-
-func DefaultScript() []byte {
-	file, err := os.Open(*dir + "_")
-	defer file.Close()
-	if err != nil {
-		log.Print("[ERROR] : Def script Open", err)
-	}
-
-	data, err := ioutil.ReadAll(file)
-	if err != nil {
-		log.Print("[ERROR] : Def script Read", err)
+		log.Print("[ERROR] : GetFileData Read", err)
 	}
 
 	return data
@@ -135,14 +134,14 @@ func Authenticate(r *http.Request) []byte {
 	}
 
 	defer resp.Body.Close()
-	
+
 	loginParser := adapters.LoginBuilder{}.GetParser(resp.Body)
 	nodes := loginParser.GetValue("input")
 	var matricule, token string
 	for _, node := range nodes {
 		b1, v1 := tools.FineSearch(node, "value", "", tools.HTMLParameter{"name", "matricule"})
 		b2, v2 := tools.FineSearch(node, "value", "", tools.HTMLParameter{"name", "token"})
-		
+
 		if b1 {
 			matricule = v1
 		}
@@ -152,7 +151,7 @@ func Authenticate(r *http.Request) []byte {
 	}
 
 	if token != "" {
-		json := fmt.Sprintf(`{"AuthResponse" : true, "Matricule" : %s, "Token" : %s}`,matricule , token)
+		json := fmt.Sprintf(`{"AuthResponse" : true, "Matricule" : %s, "Token" : %s}`, matricule, token)
 		return []byte(json)
 	}
 	return []byte(`{"AuthResponse" : false}`)
@@ -160,7 +159,7 @@ func Authenticate(r *http.Request) []byte {
 
 func IsReaderAtLeast(r io.Reader, size int) bool {
 	tmp := make([]byte, size)
-	
+
 	_, err := io.ReadAtLeast(r, tmp, size)
 	if err == io.ErrUnexpectedEOF {
 		return false
