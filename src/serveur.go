@@ -136,20 +136,8 @@ func Authenticate(r *http.Request) []byte {
 
 	defer resp.Body.Close()
 	
-	loginParser := adapters.LoginBuilder{}.GetParser(resp.Body)
-	nodes := loginParser.GetValue("input")
-	var matricule, token string
-	for _, node := range nodes {
-		b1, v1 := tools.FineSearch(node, "value", "", tools.HTMLParameter{"name", "matricule"})
-		b2, v2 := tools.FineSearch(node, "value", "", tools.HTMLParameter{"name", "token"})
-		
-		if b1 {
-			matricule = v1
-		}
-		if b2 {
-			token = v2
-		}
-	}
+	loginBuilder := adapters.LoginBuilder{}
+	matricule, token := loginParser.GetMatriculeToken()
 
 	if token != "" {
 		json := fmt.Sprintf(`{"AuthResponse" : true, "Matricule" : %s, "Token" : %s}`,matricule , token)
