@@ -22,13 +22,13 @@ type LoginBuilder struct {
 }
 
 // Fonction GetParser de l'objet LoginBuilder
-func (l LoginBuilder) SetParser(r io.Reader) *tools.HTMLParser {
+func (l *LoginBuilder) SetParser(r io.Reader) {
 	if(l.parser == nil) {
 		l.parser = &tools.HTMLParser{"Login", r, nil}
 	}
 }
 
-func (l LoginBuilder) GetMatriculeToken(r io.Reader) string, string {
+func (l *LoginBuilder) GetMatriculeToken(r io.Reader) (string,string) {
 	l.SetParser(r)
 	nodes := l.parser.GetValue("input")
 	var matricule, token string
@@ -41,6 +41,9 @@ func (l LoginBuilder) GetMatriculeToken(r io.Reader) string, string {
 		}
 		if b2 {
 			token = v2
+		}
+		if b1 && b2 {
+			break
 		}
 	}
 	return matricule, token
